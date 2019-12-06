@@ -1,4 +1,4 @@
-from .stackscoller import stackscroller,videoscroller
+from .stackscoller import videoscroller,stackscroller
 
 #make visible for 'from stackscroller import *'
 __all__ = [
