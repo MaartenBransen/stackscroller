@@ -1,6 +1,8 @@
 # stackscroller
 Library for visualizing 2-dimensional and 3-dimensional time series with optionally including particle tracking results
 
+**[The documentation can be found here](https://maartenbransen.github.io/stackscroller/)
+
 ## Info
 - created by:     Maarten Bransen
 - email:          m.bransen@uu.nl
