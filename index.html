@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>stackscroller API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>stackscroller</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .stackscroller import videoscroller,stackscroller
+
+#make visible for &#39;from stackscroller import *&#39;
+__all__ = [
+    &#39;stackscroller&#39;,
+    &#39;videoscroller&#39;,
+]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="stackscroller.stackscroller"><code class="flex name class">
+<span>class <span class="ident">stackscroller</span></span>
+<span>(</span><span>stack, features=None, pixel_aspect=(1, 1, 1), diameter=(10, 10, 10), colormap='inferno', colormap_percentile=(0.01, 99.99), timesteps=None, print_options=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>scroll through 3D stack with highlighted features. Class instance must be
+stored to a global variable or the keybindings are lost.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>stack</code></strong> :&ensp;<code>numpy.ndarray</code></dt>
+<dd>the pixel values, must have shape ([t,]z,y,x)</dd>
+<dt><strong><code>features</code></strong> :&ensp;<code>pandas</code> <code>DataFrame</code>, optional</dt>
+<dd>particle positions as formatted by from trackpy.locate for xyz or
+from trackpy.link for xyzt. The default is no particles.</dd>
+<dt><strong><code>pixel_aspect</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(z,y,x) pixel size(ratio) for correct aspect ratio.
+The default is
+(1,1,1).</dd>
+<dt><strong><code>diameter</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(z,y,x) diameters for feature highlighting. The default is
+(10,10,10).</dd>
+<dt><strong><code>colormap</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>matplotlib colormap name for visualising the data. The default is
+'inferno'.</dd>
+<dt><strong><code>colormap_percentile</code></strong> :&ensp;<code>tuple</code> of <code>2</code> <code>values</code> <code>from</code> <code>0</code> <code>to</code> <code>100</code></dt>
+<dd>lower and upper percentile of the data values to use for the min and
+max value limits of the colormap scaling</dd>
+<dt><strong><code>timesteps</code></strong> :&ensp;<code>list</code> of <code>floats</code>/<code>ints</code></dt>
+<dd>time values for each frame to display. The default is the frame index
+numbers.</dd>
+<dt><strong><code>print_options</code></strong> :&ensp;<code>bool</code></dt>
+<dd>prints the keybindings and instructions how to use to the terminal. The
+default is True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="stackscroller.stackscroller" href="#stackscroller.stackscroller"><code>stackscroller</code></a> <code>class</code> <code>instance</code></dt>
+<dd>dynamic stackscroller instance that can be called with keybindings
+to update the displayed frame</dd>
+<dt><code>initialize</code> <code>the</code> <code>class</code> <code>instance</code>, <code>create</code> <code>the</code> <code>figure</code> <code>and</code> <code>link</code> <code>keybindings</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class stackscroller:
+    &#34;&#34;&#34;
+    scroll through 3D stack with highlighted features. Class instance must be
+    stored to a global variable or the keybindings are lost.
+    
+    Parameters
+    ----------
+    stack : numpy.ndarray
+        the pixel values, must have shape ([t,]z,y,x)
+    features : pandas DataFrame, optional
+        particle positions as formatted by from trackpy.locate for xyz or 
+        from trackpy.link for xyzt. The default is no particles.
+    pixel_aspect : tuple of float, optional
+        (z,y,x) pixel size(ratio) for correct aspect ratio.  The default is
+        (1,1,1).
+    diameter : tuple of float, optional
+        (z,y,x) diameters for feature highlighting. The default is
+        (10,10,10).
+    colormap : str, optional
+        matplotlib colormap name for visualising the data. The default is
+        &#39;inferno&#39;.
+    colormap_percentile : tuple of 2 values from 0 to 100
+        lower and upper percentile of the data values to use for the min and 
+        max value limits of the colormap scaling
+    timesteps : list of floats/ints
+        time values for each frame to display. The default is the frame index 
+        numbers.        
+    print_options : bool
+        prints the keybindings and instructions how to use to the terminal. The
+        default is True.
+
+    Returns
+    -------
+    stackscroller class instance
+        dynamic stackscroller instance that can be called with keybindings
+        to update the displayed frame
+    &#34;&#34;&#34;
+    def __init__(
+            self,
+            stack,
+            features = None,
+            pixel_aspect = (1,1,1),
+            diameter = (10,10,10),
+            colormap = &#39;inferno&#39;,
+            colormap_percentile = (0.01,99.99),
+            timesteps = None,
+            print_options = True
+            ):
+        &#34;&#34;&#34;
+        initialize the class instance, create the figure and link keybindings
+        &#34;&#34;&#34;
+        #check and correct dimensionality
+        if len(np.shape(stack)) == 3:
+            self.stack = stack.reshape(1,np.shape(stack)[0],np.shape(stack)[1],np.shape(stack)[2])
+        elif len(np.shape(stack)) == 4:
+            self.stack = np.array(stack)
+        else:
+            raise ValueError(&#39;[stackscroller]: stack must be 3 or 4 dimensional&#39;)
+
+        #check timesteps
+        if timesteps == None:
+            self.usetimesteps = False
+        elif len(timesteps) != len(stack):
+            raise ValueError(&#39;[Stackscroller]: number of timesteps must be equal to length of the stack.&#39;)
+        else:
+            self.usetimesteps = True
+            self.timesteps = timesteps
+
+        #store input
+        self.shape = np.shape(self.stack)
+        self.diameter = diameter
+        self.pixel_aspect = pixel_aspect
+        self.cmap = colormap
+        
+        #check if features are given, else create dummy dataframe
+        if type(features) != pd.core.frame.DataFrame:
+            self.features = pd.DataFrame(columns=[&#39;x&#39;,&#39;y&#39;,&#39;z&#39;,&#39;frame&#39;])
+        else:
+            self.features = features.copy()
+        if &#39;frame&#39; not in self.features.columns:
+            self.features[&#39;frame&#39;] = [0]*len(features)
+        
+        #set starting positions to 0
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.t = 0
+        
+        #set defaults for changeable options
+        self.axis = 0
+        self.lines = True
+        
+        #create the figure window
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111)
+        
+        #interactive handles
+        self.fig.canvas.mpl_connect(&#39;key_press_event&#39;, self.on_key)
+        
+        #color scaling
+        self.norm = Normalize(vmin=np.percentile(stack,colormap_percentile[0]),vmax=np.percentile(stack,colormap_percentile[1]))
+        
+        #start
+        if print_options:
+            self.print_options()
+        self.set_view_xy()
+        self.update()
+    
+    def on_key(self,event):
+        &#34;&#34;&#34;
+        when a key is pressed, increment and update plot
+        &#34;&#34;&#34;
+        #set depth
+        if event.key == &#39;up&#39;:
+            self.slice = (self.slice + 1) % self.shape[self.axis]
+        elif event.key == &#39;down&#39;:
+            self.slice = (self.slice - 1) % self.shape[self.axis]
+        elif event.key == &#39;ctrl+up&#39;:
+            self.slice = (self.slice + 10) % self.shape[self.axis]
+        elif event.key == &#39;ctrl+down&#39;:
+            self.slice = (self.slice - 10) % self.shape[self.axis]
+
+        #set time
+        elif event.key == &#39;right&#39;:
+            self.t = (self.t + 1) % self.shape[0]
+            self.set_time()
+        elif event.key == &#39;left&#39;:
+            self.t = (self.t - 1) % self.shape[0]
+            self.set_time()
+        elif event.key == &#39;ctrl+right&#39;:
+            self.t = (self.t + 10) % self.shape[0]
+            self.set_time()
+        elif event.key == &#39;ctrl+left&#39;:
+            self.t = (self.t - 10) % self.shape[0]
+            self.set_time()
+        
+        #set view
+        elif event.key == &#39;1&#39;:
+            self.set_view_xy()
+        elif event.key == &#39;2&#39;:
+            self.set_view_xz()
+        elif event.key == &#39;3&#39;:
+            self.set_view_yz()
+            
+        #other
+        elif event.key == &#39;h&#39;:
+            self.print_options()
+        
+        elif event.key == &#39;l&#39;:
+            self.lines = not self.lines
+            if self.axis == 1:
+                self.set_view_xy()
+            elif self.axis == 2:
+                self.set_view_xz()
+            elif self.axis == 3:
+                self.set_view_yz()
+            
+        #update the plot
+        self.update()
+    
+    def print_options(self):
+        &#34;&#34;&#34;prints list of options&#34;&#34;&#34;
+        print(&#39; ---------------------------------------- &#39;)
+        print(&#39;|                 HOTKEYS                |&#39;)
+        print(&#39;|                                        |&#39;)
+        print(&#39;| up/down: slice through stack           |&#39;)
+        print(&#39;| left/right: move through time          |&#39;)
+        print(&#39;| ctrl + arrow keys: move 10 steps       |&#39;)
+        print(&#39;| 1: display xy plane                    |&#39;)
+        print(&#39;| 2: display xz plane                    |&#39;)
+        print(&#39;| 3: display zy plane                    |&#39;)
+        print(&#39;| l: toggle x/y/x lines                  |&#39;)
+        print(&#39;| f: toggle fullscreen                   |&#39;)
+        print(&#39;| h: print help/hotkeys                  |&#39;)
+        print(&#39; ---------------------------------------- &#39;)
+    
+    def set_time(self):
+        &#34;&#34;&#34;set data to correct timestep&#34;&#34;&#34;
+        self.data = self.oriented_stack[self.t]
+        self.f = self.oriented_features[self.oriented_features[:,0]==self.t]
+    
+    def set_view_xy(self):
+        &#34;&#34;&#34;
+        redraw the figure in the xy plane
+        &#34;&#34;&#34;
+        #store slice to correct attribute
+        if self.axis == 1:
+            self.z = self.slice        
+        elif self.axis == 2:
+            self.y = self.slice
+        elif self.axis == 3:
+            self.x = self.slice
+        
+        #set and orient the data
+        self.axis = 1
+        self.oriented_stack = self.stack.copy()
+        self.oriented_features = np.array([
+                self.features[&#39;frame&#39;],
+                self.features[&#39;z&#39;],
+                self.features[&#39;y&#39;],
+                self.features[&#39;x&#39;]]).transpose()
+        self.d = (self.diameter[0]*0.8,self.diameter[1],self.diameter[2])
+        self.slice = self.z
+        self.set_time()
+        
+        #reset the axes layout
+        self.ax.clear()
+        self.im = self.ax.imshow(
+                self.data[self.slice,:,:],
+                aspect = self.pixel_aspect[1]/self.pixel_aspect[2],
+                norm = self.norm,
+                cmap = self.cmap
+                )
+        self.ax.set_xlabel(&#39;x&#39;)
+        self.ax.set_ylabel(&#39;y&#39;)
+        
+        #plot lines for perpendicular view positions and title
+        if self.lines:
+            self.hline = self.ax.axhline(self.y,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+            self.vline = self.ax.axvline(self.x,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+
+        #set titleformat
+        if self.usetimesteps:
+            self.title = &#39;z position {} of {}, time {:.3g} of {:.3g} s&#39;
+        elif self.shape[0] &gt; 1:
+            self.title = &#39;z position {} of {}, frame {} of {}&#39;
+        else:
+            self.title = &#39;z position {} of {}&#39;
+
+    def set_view_xz(self):
+        &#34;&#34;&#34;
+        redraw the figure in the xz plane
+        &#34;&#34;&#34;
+        #store slice to correct attribute
+        if self.axis == 1:
+            self.z = self.slice
+        elif self.axis == 2:
+            self.y = self.slice
+        elif self.axis == 3:
+            self.x = self.slice
+        
+        #set and orient the data
+        self.axis = 2
+        self.oriented_stack = np.swapaxes(self.stack,1,2)
+        self.oriented_features = np.array([
+                self.features[&#39;frame&#39;],
+                self.features[&#39;y&#39;],
+                self.features[&#39;z&#39;],
+                self.features[&#39;x&#39;]]).transpose()
+        self.d = (self.diameter[1]*0.8,self.diameter[0],self.diameter[2])
+        self.slice = self.y
+        self.set_time()
+        
+        #reset the axes layout
+        self.ax.clear()
+        self.im = self.ax.imshow(
+                self.data[self.slice,:,:],
+                aspect = self.pixel_aspect[0]/self.pixel_aspect[2],
+                norm = self.norm,
+                cmap = self.cmap
+                )
+        self.ax.set_xlabel(&#39;x&#39;)
+        self.ax.set_ylabel(&#39;z&#39;)
+        
+        #plot lines for perpendicular view positions
+        if self.lines:
+            self.hline = self.ax.axhline(self.z,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+            self.vline = self.ax.axvline(self.x,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+
+        #set titleformat
+        if self.usetimesteps:
+            self.title = &#39;y position {} of {}, time {:.3g} of {:.3g} s&#39;
+        elif self.shape[0] &gt; 1:
+            self.title = &#39;y position {} of {}, frame {} of {}&#39;
+        else:
+            self.title = &#39;y position {} of {}&#39;
+        
+    def set_view_yz(self):
+        &#34;&#34;&#34;
+        redraw the figure in the zy plane
+        &#34;&#34;&#34;
+        #store slice to correct attribute
+        if self.axis == 1:
+            self.z = self.slice
+        elif self.axis == 2:
+            self.y = self.slice
+        elif self.axis == 3:
+            self.x = self.slice
+        
+        #set and orient the data
+        self.axis = 3
+        self.oriented_stack = np.swapaxes(self.stack.copy(),1,3)
+        self.oriented_features = np.array([
+                self.features[&#39;frame&#39;],
+                self.features[&#39;x&#39;],
+                self.features[&#39;y&#39;],
+                self.features[&#39;z&#39;]]).transpose()
+        self.d = (self.diameter[2]*0.8,self.diameter[1],self.diameter[0])
+        self.slice = self.x
+        self.set_time()
+        
+        #reset the axes layout
+        self.ax.clear()
+        self.im = self.ax.imshow(
+                self.data[self.slice,:,:],
+                aspect = self.pixel_aspect[1]/self.pixel_aspect[0],
+                norm = self.norm,
+                cmap = self.cmap
+                )
+        self.ax.set_xlabel(&#39;z&#39;)
+        self.ax.set_ylabel(&#39;y&#39;)
+        
+        #plot lines for perpendicular view positions
+        if self.lines:
+            self.hline = self.ax.axhline(self.y,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+            self.vline = self.ax.axvline(self.z,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+
+        #set titleformat
+        if self.usetimesteps:
+            self.title = &#39;x position {} of {}, time {:.3g} of {:.3g} s&#39;
+        elif self.shape[0] &gt; 1:
+            self.title = &#39;x position {} of {}, frame {} of {}&#39;
+        else:
+            self.title = &#39;x position {} of {}&#39;
+    
+    def update(self):
+        &#34;&#34;&#34;replot the figure and features&#34;&#34;&#34;
+        #remove old patches if exist (in reverse order, this is necessary!)
+        if len(self.ax.patches)!=0:
+            [p.remove() for p in reversed(self.ax.patches)]
+            
+        #reset data
+        self.im.set_data(self.data[self.slice,:,:])
+        
+        slicefeatures = self.f[np.logical_and(
+                self.f[:,1] &gt;= self.slice - self.d[0],
+                self.f[:,1] &lt;  self.slice + self.d[0])]
+        
+        #print features
+        d = self.d[0]**4
+        for x,y,z in zip(slicefeatures[:,3],slicefeatures[:,2],slicefeatures[:,1]):
+            r = (1-(z-self.slice)**4/d)
+            point = Ellipse((x,y),self.d[2]*r,self.d[1]*r,ec=&#39;r&#39;,fc=&#39;none&#39;)
+            self.ax.add_patch(point)
+
+        #title
+        if self.usetimesteps:
+            self.ax.set_title(self.title.format(self.slice,self.shape[self.axis],self.timesteps[self.t],self.timesteps[-1]))
+        else:
+            self.ax.set_title(self.title.format(self.slice,self.shape[self.axis],self.t+1,self.shape[0]))
+
+        #draw figure
+        self.im.axes.figure.canvas.draw()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="stackscroller.stackscroller.on_key"><code class="name flex">
+<span>def <span class="ident">on_key</span></span>(<span>self, event)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>when a key is pressed, increment and update plot</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def on_key(self,event):
+    &#34;&#34;&#34;
+    when a key is pressed, increment and update plot
+    &#34;&#34;&#34;
+    #set depth
+    if event.key == &#39;up&#39;:
+        self.slice = (self.slice + 1) % self.shape[self.axis]
+    elif event.key == &#39;down&#39;:
+        self.slice = (self.slice - 1) % self.shape[self.axis]
+    elif event.key == &#39;ctrl+up&#39;:
+        self.slice = (self.slice + 10) % self.shape[self.axis]
+    elif event.key == &#39;ctrl+down&#39;:
+        self.slice = (self.slice - 10) % self.shape[self.axis]
+
+    #set time
+    elif event.key == &#39;right&#39;:
+        self.t = (self.t + 1) % self.shape[0]
+        self.set_time()
+    elif event.key == &#39;left&#39;:
+        self.t = (self.t - 1) % self.shape[0]
+        self.set_time()
+    elif event.key == &#39;ctrl+right&#39;:
+        self.t = (self.t + 10) % self.shape[0]
+        self.set_time()
+    elif event.key == &#39;ctrl+left&#39;:
+        self.t = (self.t - 10) % self.shape[0]
+        self.set_time()
+    
+    #set view
+    elif event.key == &#39;1&#39;:
+        self.set_view_xy()
+    elif event.key == &#39;2&#39;:
+        self.set_view_xz()
+    elif event.key == &#39;3&#39;:
+        self.set_view_yz()
+        
+    #other
+    elif event.key == &#39;h&#39;:
+        self.print_options()
+    
+    elif event.key == &#39;l&#39;:
+        self.lines = not self.lines
+        if self.axis == 1:
+            self.set_view_xy()
+        elif self.axis == 2:
+            self.set_view_xz()
+        elif self.axis == 3:
+            self.set_view_yz()
+        
+    #update the plot
+    self.update()</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.stackscroller.print_options"><code class="name flex">
+<span>def <span class="ident">print_options</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>prints list of options</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_options(self):
+    &#34;&#34;&#34;prints list of options&#34;&#34;&#34;
+    print(&#39; ---------------------------------------- &#39;)
+    print(&#39;|                 HOTKEYS                |&#39;)
+    print(&#39;|                                        |&#39;)
+    print(&#39;| up/down: slice through stack           |&#39;)
+    print(&#39;| left/right: move through time          |&#39;)
+    print(&#39;| ctrl + arrow keys: move 10 steps       |&#39;)
+    print(&#39;| 1: display xy plane                    |&#39;)
+    print(&#39;| 2: display xz plane                    |&#39;)
+    print(&#39;| 3: display zy plane                    |&#39;)
+    print(&#39;| l: toggle x/y/x lines                  |&#39;)
+    print(&#39;| f: toggle fullscreen                   |&#39;)
+    print(&#39;| h: print help/hotkeys                  |&#39;)
+    print(&#39; ---------------------------------------- &#39;)</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.stackscroller.set_time"><code class="name flex">
+<span>def <span class="ident">set_time</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>set data to correct timestep</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_time(self):
+    &#34;&#34;&#34;set data to correct timestep&#34;&#34;&#34;
+    self.data = self.oriented_stack[self.t]
+    self.f = self.oriented_features[self.oriented_features[:,0]==self.t]</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.stackscroller.set_view_xy"><code class="name flex">
+<span>def <span class="ident">set_view_xy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>redraw the figure in the xy plane</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_view_xy(self):
+    &#34;&#34;&#34;
+    redraw the figure in the xy plane
+    &#34;&#34;&#34;
+    #store slice to correct attribute
+    if self.axis == 1:
+        self.z = self.slice        
+    elif self.axis == 2:
+        self.y = self.slice
+    elif self.axis == 3:
+        self.x = self.slice
+    
+    #set and orient the data
+    self.axis = 1
+    self.oriented_stack = self.stack.copy()
+    self.oriented_features = np.array([
+            self.features[&#39;frame&#39;],
+            self.features[&#39;z&#39;],
+            self.features[&#39;y&#39;],
+            self.features[&#39;x&#39;]]).transpose()
+    self.d = (self.diameter[0]*0.8,self.diameter[1],self.diameter[2])
+    self.slice = self.z
+    self.set_time()
+    
+    #reset the axes layout
+    self.ax.clear()
+    self.im = self.ax.imshow(
+            self.data[self.slice,:,:],
+            aspect = self.pixel_aspect[1]/self.pixel_aspect[2],
+            norm = self.norm,
+            cmap = self.cmap
+            )
+    self.ax.set_xlabel(&#39;x&#39;)
+    self.ax.set_ylabel(&#39;y&#39;)
+    
+    #plot lines for perpendicular view positions and title
+    if self.lines:
+        self.hline = self.ax.axhline(self.y,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+        self.vline = self.ax.axvline(self.x,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+
+    #set titleformat
+    if self.usetimesteps:
+        self.title = &#39;z position {} of {}, time {:.3g} of {:.3g} s&#39;
+    elif self.shape[0] &gt; 1:
+        self.title = &#39;z position {} of {}, frame {} of {}&#39;
+    else:
+        self.title = &#39;z position {} of {}&#39;</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.stackscroller.set_view_xz"><code class="name flex">
+<span>def <span class="ident">set_view_xz</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>redraw the figure in the xz plane</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_view_xz(self):
+    &#34;&#34;&#34;
+    redraw the figure in the xz plane
+    &#34;&#34;&#34;
+    #store slice to correct attribute
+    if self.axis == 1:
+        self.z = self.slice
+    elif self.axis == 2:
+        self.y = self.slice
+    elif self.axis == 3:
+        self.x = self.slice
+    
+    #set and orient the data
+    self.axis = 2
+    self.oriented_stack = np.swapaxes(self.stack,1,2)
+    self.oriented_features = np.array([
+            self.features[&#39;frame&#39;],
+            self.features[&#39;y&#39;],
+            self.features[&#39;z&#39;],
+            self.features[&#39;x&#39;]]).transpose()
+    self.d = (self.diameter[1]*0.8,self.diameter[0],self.diameter[2])
+    self.slice = self.y
+    self.set_time()
+    
+    #reset the axes layout
+    self.ax.clear()
+    self.im = self.ax.imshow(
+            self.data[self.slice,:,:],
+            aspect = self.pixel_aspect[0]/self.pixel_aspect[2],
+            norm = self.norm,
+            cmap = self.cmap
+            )
+    self.ax.set_xlabel(&#39;x&#39;)
+    self.ax.set_ylabel(&#39;z&#39;)
+    
+    #plot lines for perpendicular view positions
+    if self.lines:
+        self.hline = self.ax.axhline(self.z,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+        self.vline = self.ax.axvline(self.x,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+
+    #set titleformat
+    if self.usetimesteps:
+        self.title = &#39;y position {} of {}, time {:.3g} of {:.3g} s&#39;
+    elif self.shape[0] &gt; 1:
+        self.title = &#39;y position {} of {}, frame {} of {}&#39;
+    else:
+        self.title = &#39;y position {} of {}&#39;</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.stackscroller.set_view_yz"><code class="name flex">
+<span>def <span class="ident">set_view_yz</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>redraw the figure in the zy plane</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_view_yz(self):
+    &#34;&#34;&#34;
+    redraw the figure in the zy plane
+    &#34;&#34;&#34;
+    #store slice to correct attribute
+    if self.axis == 1:
+        self.z = self.slice
+    elif self.axis == 2:
+        self.y = self.slice
+    elif self.axis == 3:
+        self.x = self.slice
+    
+    #set and orient the data
+    self.axis = 3
+    self.oriented_stack = np.swapaxes(self.stack.copy(),1,3)
+    self.oriented_features = np.array([
+            self.features[&#39;frame&#39;],
+            self.features[&#39;x&#39;],
+            self.features[&#39;y&#39;],
+            self.features[&#39;z&#39;]]).transpose()
+    self.d = (self.diameter[2]*0.8,self.diameter[1],self.diameter[0])
+    self.slice = self.x
+    self.set_time()
+    
+    #reset the axes layout
+    self.ax.clear()
+    self.im = self.ax.imshow(
+            self.data[self.slice,:,:],
+            aspect = self.pixel_aspect[1]/self.pixel_aspect[0],
+            norm = self.norm,
+            cmap = self.cmap
+            )
+    self.ax.set_xlabel(&#39;z&#39;)
+    self.ax.set_ylabel(&#39;y&#39;)
+    
+    #plot lines for perpendicular view positions
+    if self.lines:
+        self.hline = self.ax.axhline(self.y,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+        self.vline = self.ax.axvline(self.z,linestyle=&#39;:&#39;,color=&#39;white&#39;)
+
+    #set titleformat
+    if self.usetimesteps:
+        self.title = &#39;x position {} of {}, time {:.3g} of {:.3g} s&#39;
+    elif self.shape[0] &gt; 1:
+        self.title = &#39;x position {} of {}, frame {} of {}&#39;
+    else:
+        self.title = &#39;x position {} of {}&#39;</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.stackscroller.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>replot the figure and features</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self):
+    &#34;&#34;&#34;replot the figure and features&#34;&#34;&#34;
+    #remove old patches if exist (in reverse order, this is necessary!)
+    if len(self.ax.patches)!=0:
+        [p.remove() for p in reversed(self.ax.patches)]
+        
+    #reset data
+    self.im.set_data(self.data[self.slice,:,:])
+    
+    slicefeatures = self.f[np.logical_and(
+            self.f[:,1] &gt;= self.slice - self.d[0],
+            self.f[:,1] &lt;  self.slice + self.d[0])]
+    
+    #print features
+    d = self.d[0]**4
+    for x,y,z in zip(slicefeatures[:,3],slicefeatures[:,2],slicefeatures[:,1]):
+        r = (1-(z-self.slice)**4/d)
+        point = Ellipse((x,y),self.d[2]*r,self.d[1]*r,ec=&#39;r&#39;,fc=&#39;none&#39;)
+        self.ax.add_patch(point)
+
+    #title
+    if self.usetimesteps:
+        self.ax.set_title(self.title.format(self.slice,self.shape[self.axis],self.timesteps[self.t],self.timesteps[-1]))
+    else:
+        self.ax.set_title(self.title.format(self.slice,self.shape[self.axis],self.t+1,self.shape[0]))
+
+    #draw figure
+    self.im.axes.figure.canvas.draw()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="stackscroller.videoscroller"><code class="flex name class">
+<span>class <span class="ident">videoscroller</span></span>
+<span>(</span><span>stack, features=None, pixel_aspect=(1, 1), diameter=(10, 10), colormap='inferno', colormap_percentile=(0.01, 99.99), timesteps=None, print_options=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>scroll through xyt series with highlighted features. Class instance must be
+stored to a global variable or the keybindings are lost.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>stack</code></strong> :&ensp;<code>numpy.ndarray</code></dt>
+<dd>the pixel values, must have shape (t,y,x)</dd>
+<dt><strong><code>features</code></strong> :&ensp;<code>pandas</code> <code>DataFrame</code>, optional</dt>
+<dd>particle positions as formatted by from trackpy.locate/batch. The
+default is no particles.</dd>
+<dt><strong><code>pixel_aspect</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(y,x) pixel size(ratio) for correct aspect ratio.
+The default is
+(1,1).</dd>
+<dt><strong><code>diameter</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(y,x) diameters for feature highlighting. The default is
+(10,10).</dd>
+<dt><strong><code>colormap</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>matplotlib colormap name for visualising the data. The default is
+'inferno'.</dd>
+<dt><strong><code>colormap_percentile</code></strong> :&ensp;<code>tuple</code> of <code>2</code> <code>values</code> <code>from</code> <code>0</code> <code>to</code> <code>100</code></dt>
+<dd>lower and upper percentile of the data values to use for the min and
+max value limits of the colormap scaling</dd>
+<dt><strong><code>timesteps</code></strong> :&ensp;<code>list</code> of <code>floats</code>/<code>ints</code></dt>
+<dd>list of time stamps for the video frames to display. The default is the
+frame index numbers.</dd>
+<dt><strong><code>print_options</code></strong> :&ensp;<code>bool</code></dt>
+<dd>prints the keybindings and instructions how to use to the terminal. The
+default is True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><a title="stackscroller.stackscroller" href="#stackscroller.stackscroller"><code>stackscroller</code></a> <code>class</code> <code>instance</code></dt>
+<dd>dynamic stackscroller instance that can be called with keybindings
+to update the displayed frame</dd>
+<dt><code>initialize</code> <code>the</code> <code>class</code> <code>instance</code>, <code>create</code> <code>the</code> <code>figure</code> <code>and</code> <code>link</code> <code>keybindings</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class videoscroller:
+    &#34;&#34;&#34;
+    scroll through xyt series with highlighted features. Class instance must be
+    stored to a global variable or the keybindings are lost.
+    
+    Parameters
+    ----------
+    stack : numpy.ndarray
+        the pixel values, must have shape (t,y,x)
+    features : pandas DataFrame, optional
+        particle positions as formatted by from trackpy.locate/batch. The 
+        default is no particles.
+    pixel_aspect : tuple of float, optional
+        (y,x) pixel size(ratio) for correct aspect ratio.  The default is
+        (1,1).
+    diameter : tuple of float, optional
+        (y,x) diameters for feature highlighting. The default is
+        (10,10).
+    colormap : str, optional
+        matplotlib colormap name for visualising the data. The default is
+        &#39;inferno&#39;.
+    colormap_percentile : tuple of 2 values from 0 to 100
+        lower and upper percentile of the data values to use for the min and 
+        max value limits of the colormap scaling
+    timesteps : list of floats/ints
+        list of time stamps for the video frames to display. The default is the
+        frame index numbers.
+    print_options : bool
+        prints the keybindings and instructions how to use to the terminal. The
+        default is True.
+
+    Returns
+    -------
+    stackscroller class instance
+        dynamic stackscroller instance that can be called with keybindings
+        to update the displayed frame
+    &#34;&#34;&#34;
+    def __init__(
+            self,
+            stack,
+            features = None,
+            pixel_aspect = (1,1),
+            diameter = (10,10),
+            colormap = &#39;inferno&#39;,
+            colormap_percentile = (0.01,99.99),
+            timesteps = None,
+            print_options = True
+            ):
+        &#34;&#34;&#34;
+        initialize the class instance, create the figure and link keybindings
+        &#34;&#34;&#34;
+
+        #store input
+        self.stack = np.array(stack)
+        self.shape = np.shape(self.stack)
+        self.diameter = diameter
+        self.pixel_aspect = pixel_aspect
+        self.cmap = colormap
+
+                #check timesteps
+        if type(timesteps) == type(None):
+            self.usetimesteps = False
+        elif len(timesteps) != len(stack):
+            raise ValueError(&#39;[Stackscroller]: number of timesteps must be equal to length of the stack.&#39;)
+        else:
+            self.usetimesteps = True
+            self.timesteps = timesteps
+
+        #check if features are given, else create dummy dataframe
+        if type(features) != pd.core.frame.DataFrame:
+            self.features = pd.DataFrame(columns=[&#39;x&#39;,&#39;y&#39;,&#39;frame&#39;])
+        else:
+            self.features = features.copy()
+        if &#39;frame&#39; not in self.features.columns:
+            self.features[&#39;frame&#39;] = [0]*len(features)
+        
+        #set starting positions to 0
+        self.x = 0
+        self.y = 0
+        self.t = 0
+
+        #color scaling
+        self.norm = Normalize(vmin=np.percentile(stack,colormap_percentile[0]),vmax=np.percentile(stack,colormap_percentile[1]))
+
+        #create the figure window
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111)
+        self.im = self.ax.imshow(
+                self.stack[self.t],
+                aspect = self.pixel_aspect[0]/self.pixel_aspect[1],
+                norm = self.norm,
+                cmap = self.cmap
+                )
+        self.ax.set_xlabel(&#39;x&#39;)
+        self.ax.set_ylabel(&#39;y&#39;)
+
+        #interactive handles
+        self.fig.canvas.mpl_connect(&#39;key_press_event&#39;, self.on_key)
+
+
+        #start
+        if print_options:
+            self.print_options()
+        self.update()
+    
+    def on_key(self,event):
+        &#34;&#34;&#34;
+        when a key is pressed, increment and update plot
+        &#34;&#34;&#34;
+        #set time
+        if event.key == &#39;right&#39;:
+            self.t = (self.t + 1) % self.shape[0]
+        elif event.key == &#39;left&#39;:
+            self.t = (self.t - 1) % self.shape[0]
+        elif event.key == &#39;ctrl+right&#39;:
+            self.t = (self.t + 10) % self.shape[0]
+        elif event.key == &#39;ctrl+left&#39;:
+            self.t = (self.t - 10) % self.shape[0]
+
+        #other
+        elif event.key == &#39;h&#39;:
+            self.print_options()
+
+        #update the plot
+        self.update()
+    
+    def print_options(self):
+        &#34;&#34;&#34;prints list of options&#34;&#34;&#34;
+        print(&#39; ---------------------------------------- &#39;)
+        print(&#39;|                 HOTKEYS                |&#39;)
+        print(&#39;|                                        |&#39;)
+        print(&#39;| left/right: move through time          |&#39;)
+        print(&#39;| ctrl + arrow keys: move 10 steps       |&#39;)
+        print(&#39;| f: toggle fullscreen                   |&#39;)
+        print(&#39;| h: print help/hotkeys                  |&#39;)
+        print(&#39; ---------------------------------------- &#39;)
+
+    def update(self):
+        &#34;&#34;&#34;replot the figure and features&#34;&#34;&#34;
+        #remove old patches if exist (in reverse order, this is necessary!)
+        if len(self.ax.patches)!=0:
+            [p.remove() for p in reversed(self.ax.patches)]
+            
+        #reset data
+        self.im.set_data(self.stack[self.t])
+
+        framefeatures = self.features[self.features[&#39;frame&#39;]==self.t]
+
+        #print features
+        for x,y in zip(framefeatures[&#39;x&#39;],framefeatures[&#39;y&#39;]):
+            point = Ellipse((x,y),self.diameter[1],self.diameter[0],ec=&#39;r&#39;,fc=&#39;none&#39;)
+            self.ax.add_patch(point)
+
+        #title
+        if self.usetimesteps:
+            self.ax.set_title(&#39;time: {:.3f} of {:.3f} s&#39;.format(self.timesteps[self.t],self.timesteps[-1]))
+        else:
+            self.ax.set_title(&#39;frame {} of {}&#39;.format(self.t,self.shape[0]))
+
+        #draw figure
+
+        self.im.axes.figure.canvas.draw()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="stackscroller.videoscroller.on_key"><code class="name flex">
+<span>def <span class="ident">on_key</span></span>(<span>self, event)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>when a key is pressed, increment and update plot</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def on_key(self,event):
+    &#34;&#34;&#34;
+    when a key is pressed, increment and update plot
+    &#34;&#34;&#34;
+    #set time
+    if event.key == &#39;right&#39;:
+        self.t = (self.t + 1) % self.shape[0]
+    elif event.key == &#39;left&#39;:
+        self.t = (self.t - 1) % self.shape[0]
+    elif event.key == &#39;ctrl+right&#39;:
+        self.t = (self.t + 10) % self.shape[0]
+    elif event.key == &#39;ctrl+left&#39;:
+        self.t = (self.t - 10) % self.shape[0]
+
+    #other
+    elif event.key == &#39;h&#39;:
+        self.print_options()
+
+    #update the plot
+    self.update()</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.videoscroller.print_options"><code class="name flex">
+<span>def <span class="ident">print_options</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>prints list of options</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def print_options(self):
+    &#34;&#34;&#34;prints list of options&#34;&#34;&#34;
+    print(&#39; ---------------------------------------- &#39;)
+    print(&#39;|                 HOTKEYS                |&#39;)
+    print(&#39;|                                        |&#39;)
+    print(&#39;| left/right: move through time          |&#39;)
+    print(&#39;| ctrl + arrow keys: move 10 steps       |&#39;)
+    print(&#39;| f: toggle fullscreen                   |&#39;)
+    print(&#39;| h: print help/hotkeys                  |&#39;)
+    print(&#39; ---------------------------------------- &#39;)</code></pre>
+</details>
+</dd>
+<dt id="stackscroller.videoscroller.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>replot the figure and features</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self):
+    &#34;&#34;&#34;replot the figure and features&#34;&#34;&#34;
+    #remove old patches if exist (in reverse order, this is necessary!)
+    if len(self.ax.patches)!=0:
+        [p.remove() for p in reversed(self.ax.patches)]
+        
+    #reset data
+    self.im.set_data(self.stack[self.t])
+
+    framefeatures = self.features[self.features[&#39;frame&#39;]==self.t]
+
+    #print features
+    for x,y in zip(framefeatures[&#39;x&#39;],framefeatures[&#39;y&#39;]):
+        point = Ellipse((x,y),self.diameter[1],self.diameter[0],ec=&#39;r&#39;,fc=&#39;none&#39;)
+        self.ax.add_patch(point)
+
+    #title
+    if self.usetimesteps:
+        self.ax.set_title(&#39;time: {:.3f} of {:.3f} s&#39;.format(self.timesteps[self.t],self.timesteps[-1]))
+    else:
+        self.ax.set_title(&#39;frame {} of {}&#39;.format(self.t,self.shape[0]))
+
+    #draw figure
+
+    self.im.axes.figure.canvas.draw()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="stackscroller.stackscroller" href="#stackscroller.stackscroller">stackscroller</a></code></h4>
+<ul class="two-column">
+<li><code><a title="stackscroller.stackscroller.on_key" href="#stackscroller.stackscroller.on_key">on_key</a></code></li>
+<li><code><a title="stackscroller.stackscroller.print_options" href="#stackscroller.stackscroller.print_options">print_options</a></code></li>
+<li><code><a title="stackscroller.stackscroller.set_time" href="#stackscroller.stackscroller.set_time">set_time</a></code></li>
+<li><code><a title="stackscroller.stackscroller.set_view_xy" href="#stackscroller.stackscroller.set_view_xy">set_view_xy</a></code></li>
+<li><code><a title="stackscroller.stackscroller.set_view_xz" href="#stackscroller.stackscroller.set_view_xz">set_view_xz</a></code></li>
+<li><code><a title="stackscroller.stackscroller.set_view_yz" href="#stackscroller.stackscroller.set_view_yz">set_view_yz</a></code></li>
+<li><code><a title="stackscroller.stackscroller.update" href="#stackscroller.stackscroller.update">update</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="stackscroller.videoscroller" href="#stackscroller.videoscroller">videoscroller</a></code></h4>
+<ul class="">
+<li><code><a title="stackscroller.videoscroller.on_key" href="#stackscroller.videoscroller.on_key">on_key</a></code></li>
+<li><code><a title="stackscroller.videoscroller.print_options" href="#stackscroller.videoscroller.print_options">print_options</a></code></li>
+<li><code><a title="stackscroller.videoscroller.update" href="#stackscroller.videoscroller.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
