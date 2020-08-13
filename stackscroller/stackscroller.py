@@ -2,7 +2,7 @@
 """
 created by:     Maarten Bransen
 email:          m.bransen@uu.nl
-last updated:   11-10-2019
+last updated:   13-08-2020
 """
 
 import matplotlib.pyplot as plt
@@ -212,7 +212,7 @@ class stackscroller:
                 self.features['z'],
                 self.features['y'],
                 self.features['x']]).transpose()
-        self.d = (self.diameter[0]*0.8,self.diameter[1],self.diameter[2])
+        self.d = (self.diameter[0]*0.7,self.diameter[1],self.diameter[2])
         self.slice = self.z
         self.set_time()
         
@@ -260,7 +260,7 @@ class stackscroller:
                 self.features['y'],
                 self.features['z'],
                 self.features['x']]).transpose()
-        self.d = (self.diameter[1]*0.8,self.diameter[0],self.diameter[2])
+        self.d = (self.diameter[1]*0.7,self.diameter[0],self.diameter[2])
         self.slice = self.y
         self.set_time()
         
@@ -308,7 +308,7 @@ class stackscroller:
                 self.features['x'],
                 self.features['y'],
                 self.features['z']]).transpose()
-        self.d = (self.diameter[2]*0.8,self.diameter[1],self.diameter[0])
+        self.d = (self.diameter[2]*0.7,self.diameter[1],self.diameter[0])
         self.slice = self.x
         self.set_time()
         
