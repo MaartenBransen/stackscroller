@@ -1,29 +1,31 @@
 # stackscroller
 Library for visualizing 2-dimensional and 3-dimensional time series with optionally including particle tracking results
 
-**[The documentation can be found here](https://maartenbransen.github.io/stackscroller/)**
+**[The documentation can be found here](https://maartenbransen.github.io/stackscroller/index.html)**
 
 ## Info
 - created by:     Maarten Bransen
 - email:          m.bransen@uu.nl
 
-## Installation instructions
-Download the `stackscroller` folder and place it in your `site-packages` location of your Anaconda installation. If you are unsure where this is located you can find the path of any already installed package, e.g. using numpy:
+## Installation
+This package can be installed directly from GitHub using pip:
 ```
-import numpy
-print(numpy.__file__)
+pip install git+https://github.com/MaartenBransen/stackscroller
 ```
-which may print something like
+### Anaconda
+When using the Anaconda distribution, it is safer to run the conda version of pip as follows:
 ```
-'<current user>\\AppData\\Local\\Continuum\\anaconda3\\lib\\site-packages\\numpy\\__init__.py'
+conda install pip
+conda install git
+pip install git+https://github.com/MaartenBransen/stackscroller
 ```
 
 ## Usage
 There are two classes:
-- stackscroller: for visualizing a 3-dimensional stack (or a time series of 3-dimensional stacks)
-- videoscroller: for visualizing a 2-dimensional time series
+- [stackscroller](https://maartenbransen.github.io/stackscroller/index.html#stackscroller.stackscroller): for visualizing a 3-dimensional stack (or a time series of 3-dimensional stacks)
+- [videoscroller](https://maartenbransen.github.io/stackscroller/index.html#stackscroller.videoscroller): for visualizing a 2-dimensional time series
 
-When creating a class instance, it *must* be stored to a global variable, otherwise the python garbage collector comes and deletes all of our information needed to scroll through the data. Additionally, the Spyder ide must be set up to open figures in a separate window. 
+When creating a class instance, it *must* be stored to a global variable, otherwise the python garbage collector comes and deletes all of our information needed to scroll through the data. Additionally, when using the Spyder IDE, it must be set up to open figures in a separate window. 
 
 Example usage:
 ```
