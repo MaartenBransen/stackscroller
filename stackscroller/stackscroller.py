@@ -71,12 +71,12 @@ class stackscroller:
             raise ValueError('[stackscroller]: stack must be 3 or 4 dimensional')
 
         #check timesteps
-        if timesteps == None:
-            self.usetimesteps = False
+        if type(timesteps) == type(None):
+            self.use_timesteps = False
         elif len(timesteps) != len(stack):
             raise ValueError('[Stackscroller]: number of timesteps must be equal to length of the stack.')
         else:
-            self.usetimesteps = True
+            self.use_timesteps = True
             self.timesteps = timesteps
 
         #store input
@@ -85,13 +85,15 @@ class stackscroller:
         self.pixel_aspect = pixel_aspect
         self.cmap = colormap
         
-        #check if features are given, else create dummy dataframe
-        if type(features) != pd.core.frame.DataFrame:
-            self.features = pd.DataFrame(columns=['x','y','z','frame'])
+        #check if features are given
+        if type(features) == type(None):
+            self.use_features = False
         else:
+            self.use_features = True
             self.features = features.copy()
-        if 'frame' not in self.features.columns:
-            self.features['frame'] = [0]*len(features)
+            
+            if 'frame' not in self.features.columns:
+                self.features['frame'] = [0]*len(features)
         
         #set starting positions to 0
         self.x = 0
@@ -115,11 +117,11 @@ class stackscroller:
         
         #start
         if print_options:
-            self.print_options()
-        self.set_view_xy()
-        self.update()
+            self._print_options()
+        self._set_view_xy()
+        self._update()
     
-    def on_key(self,event):
+    def _on_key(self,event):
         """
         when a key is pressed, increment and update plot
         """
@@ -136,42 +138,42 @@ class stackscroller:
         #set time
         elif event.key == 'right':
             self.t = (self.t + 1) % self.shape[0]
-            self.set_time()
+            self._set_time()
         elif event.key == 'left':
             self.t = (self.t - 1) % self.shape[0]
-            self.set_time()
+            self._set_time()
         elif event.key == 'ctrl+right':
             self.t = (self.t + 10) % self.shape[0]
-            self.set_time()
+            self._set_time()
         elif event.key == 'ctrl+left':
             self.t = (self.t - 10) % self.shape[0]
-            self.set_time()
+            self._set_time()
         
         #set view
         elif event.key == '1':
-            self.set_view_xy()
+            self._set_view_xy()
         elif event.key == '2':
-            self.set_view_xz()
+            self._set_view_xz()
         elif event.key == '3':
-            self.set_view_yz()
+            self._set_view_yz()
             
         #other
         elif event.key == 'h':
-            self.print_options()
+            self._print_options()
         
         elif event.key == 'l':
             self.lines = not self.lines
             if self.axis == 1:
-                self.set_view_xy()
+                self._set_view_xy()
             elif self.axis == 2:
-                self.set_view_xz()
+                self._set_view_xz()
             elif self.axis == 3:
-                self.set_view_yz()
+                self._set_view_yz()
             
         #update the plot
-        self.update()
+        self._update()
     
-    def print_options(self):
+    def _print_options(self):
         """prints list of options"""
         print(' ---------------------------------------- ')
         print('|                 HOTKEYS                |')
@@ -187,12 +189,13 @@ class stackscroller:
         print('| h: print help/hotkeys                  |')
         print(' ---------------------------------------- ')
     
-    def set_time(self):
+    def _set_time(self):
         """set data to correct timestep"""
         self.data = self.oriented_stack[self.t]
-        self.f = self.oriented_features[self.oriented_features[:,0]==self.t]
+        if self.use_features:
+            self.f = self.oriented_features[self.oriented_features[:,0]==self.t]
     
-    def set_view_xy(self):
+    def _set_view_xy(self):
         """
         redraw the figure in the xy plane
         """
@@ -207,14 +210,15 @@ class stackscroller:
         #set and orient the data
         self.axis = 1
         self.oriented_stack = self.stack.copy()
-        self.oriented_features = np.array([
-                self.features['frame'],
-                self.features['z'],
-                self.features['y'],
-                self.features['x']]).transpose()
-        self.d = (self.diameter[0]*0.7,self.diameter[1],self.diameter[2])
+        if self.use_features:
+            self.oriented_features = np.array([
+                    self.features['frame'],
+                    self.features['z'],
+                    self.features['y'],
+                    self.features['x']]).transpose()
+            self.d = (self.diameter[0]*0.7,self.diameter[1],self.diameter[2])
         self.slice = self.z
-        self.set_time()
+        self._set_time()
         
         #reset the axes layout
         self.ax.clear()
@@ -233,14 +237,14 @@ class stackscroller:
             self.vline = self.ax.axvline(self.x,linestyle=':',color='white')
 
         #set titleformat
-        if self.usetimesteps:
+        if self.use_timesteps:
             self.title = 'z position {} of {}, time {:.3g} of {:.3g} s'
         elif self.shape[0] > 1:
             self.title = 'z position {} of {}, frame {} of {}'
         else:
             self.title = 'z position {} of {}'
 
-    def set_view_xz(self):
+    def _set_view_xz(self):
         """
         redraw the figure in the xz plane
         """
@@ -255,14 +259,15 @@ class stackscroller:
         #set and orient the data
         self.axis = 2
         self.oriented_stack = np.swapaxes(self.stack,1,2)
-        self.oriented_features = np.array([
-                self.features['frame'],
-                self.features['y'],
-                self.features['z'],
-                self.features['x']]).transpose()
-        self.d = (self.diameter[1]*0.7,self.diameter[0],self.diameter[2])
+        if self.use_features:
+            self.oriented_features = np.array([
+                    self.features['frame'],
+                    self.features['y'],
+                    self.features['z'],
+                    self.features['x']]).transpose()
+            self.d = (self.diameter[1]*0.7,self.diameter[0],self.diameter[2])
         self.slice = self.y
-        self.set_time()
+        self._set_time()
         
         #reset the axes layout
         self.ax.clear()
@@ -281,14 +286,14 @@ class stackscroller:
             self.vline = self.ax.axvline(self.x,linestyle=':',color='white')
 
         #set titleformat
-        if self.usetimesteps:
+        if self.use_timesteps:
             self.title = 'y position {} of {}, time {:.3g} of {:.3g} s'
         elif self.shape[0] > 1:
             self.title = 'y position {} of {}, frame {} of {}'
         else:
             self.title = 'y position {} of {}'
         
-    def set_view_yz(self):
+    def _set_view_yz(self):
         """
         redraw the figure in the zy plane
         """
@@ -303,14 +308,15 @@ class stackscroller:
         #set and orient the data
         self.axis = 3
         self.oriented_stack = np.swapaxes(self.stack.copy(),1,3)
-        self.oriented_features = np.array([
-                self.features['frame'],
-                self.features['x'],
-                self.features['y'],
-                self.features['z']]).transpose()
-        self.d = (self.diameter[2]*0.7,self.diameter[1],self.diameter[0])
+        if self.use_features:
+            self.oriented_features = np.array([
+                    self.features['frame'],
+                    self.features['x'],
+                    self.features['y'],
+                    self.features['z']]).transpose()
+            self.d = (self.diameter[2]*0.7,self.diameter[1],self.diameter[0])
         self.slice = self.x
-        self.set_time()
+        self._set_time()
         
         #reset the axes layout
         self.ax.clear()
@@ -329,38 +335,56 @@ class stackscroller:
             self.vline = self.ax.axvline(self.z,linestyle=':',color='white')
 
         #set titleformat
-        if self.usetimesteps:
+        if self.use_timesteps:
             self.title = 'x position {} of {}, time {:.3g} of {:.3g} s'
         elif self.shape[0] > 1:
             self.title = 'x position {} of {}, frame {} of {}'
         else:
             self.title = 'x position {} of {}'
     
-    def update(self):
-        """replot the figure and features"""
-        #remove old patches if exist (in reverse order, this is necessary!)
-        if len(self.ax.patches)!=0:
-            [p.remove() for p in reversed(self.ax.patches)]
-            
+    def _update(self):
+        """replot the figure and features"""   
         #reset data
         self.im.set_data(self.data[self.slice,:,:])
         
-        slicefeatures = self.f[np.logical_and(
-                self.f[:,1] >= self.slice - self.d[0],
-                self.f[:,1] <  self.slice + self.d[0])]
+        #add features
+        if self.use_features:
+            
+            #remove old patches if exist (in reverse order, this is necessary!)
+            if len(self.ax.patches)!=0:
+                [p.remove() for p in reversed(self.ax.patches)]
+            
+            #select features to display
+            slicefeatures = self.f[np.logical_and(
+                    self.f[:,1] >= self.slice - self.d[0],
+                    self.f[:,1] <  self.slice + self.d[0])]
         
-        #print features
-        d = self.d[0]**4
-        for x,y,z in zip(slicefeatures[:,3],slicefeatures[:,2],slicefeatures[:,1]):
-            r = (1-(z-self.slice)**4/d)
-            point = Ellipse((x,y),self.d[2]*r,self.d[1]*r,ec='r',fc='none')
-            self.ax.add_patch(point)
+            #print features
+            d = self.d[0]**4
+            for x,y,z in zip(slicefeatures[:,3],slicefeatures[:,2],slicefeatures[:,1]):
+                r = (1-(z-self.slice)**4/d)
+                point = Ellipse((x,y),self.d[2]*r,self.d[1]*r,ec='r',fc='none')
+                self.ax.add_patch(point)
 
         #title
-        if self.usetimesteps:
-            self.ax.set_title(self.title.format(self.slice,self.shape[self.axis],self.timesteps[self.t],self.timesteps[-1]))
+        if self.use_timesteps:
+            self.ax.set_title(
+                self.title.format(
+                    self.slice,
+                    self.shape[self.axis],
+                    self.timesteps[self.t],
+                    self.timesteps[-1]
+                )
+            )
         else:
-            self.ax.set_title(self.title.format(self.slice,self.shape[self.axis],self.t+1,self.shape[0]))
+            self.ax.set_title(
+                self.title.format(
+                    self.slice,
+                    self.shape[self.axis],
+                    self.t+1,
+                    self.shape[0]
+                )
+            )
 
         #draw figure
         self.im.axes.figure.canvas.draw()
@@ -427,20 +451,21 @@ class videoscroller:
 
                 #check timesteps
         if type(timesteps) == type(None):
-            self.usetimesteps = False
+            self.use_timesteps = False
         elif len(timesteps) != len(stack):
             raise ValueError('[Stackscroller]: number of timesteps must be equal to length of the stack.')
         else:
-            self.usetimesteps = True
+            self.use_timesteps = True
             self.timesteps = timesteps
 
-        #check if features are given, else create dummy dataframe
-        if type(features) != pd.core.frame.DataFrame:
-            self.features = pd.DataFrame(columns=['x','y','frame'])
+        #check if features are given
+        if type(features) == type(None):
+            self.use_features = False
         else:
+            self.use_features = True
             self.features = features.copy()
-        if 'frame' not in self.features.columns:
-            self.features['frame'] = [0]*len(features)
+            if 'frame' not in self.features.columns:
+                self.features['frame'] = [0]*len(features)
         
         #set starting positions to 0
         self.x = 0
@@ -468,10 +493,10 @@ class videoscroller:
 
         #start
         if print_options:
-            self.print_options()
-        self.update()
+            self._print_options()
+        self._update()
     
-    def on_key(self,event):
+    def _on_key(self,event):
         """
         when a key is pressed, increment and update plot
         """
@@ -487,12 +512,12 @@ class videoscroller:
 
         #other
         elif event.key == 'h':
-            self.print_options()
+            self._print_options()
 
         #update the plot
-        self.update()
+        self._update()
     
-    def print_options(self):
+    def _print_options(self):
         """prints list of options"""
         print(' ---------------------------------------- ')
         print('|                 HOTKEYS                |')
@@ -503,121 +528,32 @@ class videoscroller:
         print('| h: print help/hotkeys                  |')
         print(' ---------------------------------------- ')
 
-    def update(self):
-        """replot the figure and features"""
-        #remove old patches if exist (in reverse order, this is necessary!)
-        if len(self.ax.patches)!=0:
-            [p.remove() for p in reversed(self.ax.patches)]
-            
+    def _update(self):
+        """replot the figure and features"""            
         #reset data
         self.im.set_data(self.stack[self.t])
-
-        framefeatures = self.features[self.features['frame']==self.t]
-
-        #print features
-        for x,y in zip(framefeatures['x'],framefeatures['y']):
-            point = Ellipse((x,y),self.diameter[1],self.diameter[0],ec='r',fc='none')
-            self.ax.add_patch(point)
+        
+        #add features
+        if self.use_features:
+            
+            #remove old patches if exist (in reverse order, this is necessary!)
+            if len(self.ax.patches)!=0:
+                [p.remove() for p in reversed(self.ax.patches)]
+            
+            #select and plot features for current frame
+            framefeatures = self.features[self.features['frame']==self.t]
+            for x,y in zip(framefeatures['x'],framefeatures['y']):
+                point = Ellipse((x,y),self.diameter[1],self.diameter[0],ec='r',fc='none')
+                self.ax.add_patch(point)
 
         #title
-        if self.usetimesteps:
-            self.ax.set_title('time: {:.3f} of {:.3f} s'.format(self.timesteps[self.t],self.timesteps[-1]))
+        if self.use_timesteps:
+            self.ax.set_title('time: {:.3f} of {:.3f} s'.format(
+                self.timesteps[self.t],
+                self.timesteps[-1]
+            ))
         else:
             self.ax.set_title('frame {} of {}'.format(self.t,self.shape[0]))
 
         #draw figure
-
-        self.im.axes.figure.canvas.draw()
-       
-
-
-class videoscroller_old(object):
-    """
-    scroll through 2D timeseries with highlighted features
-    
-    @parameters:
-        figure,axes:    plt.subplots handles
-        images:         ndarray of (t,y,x)
-        features:       pandas dataframe from trackpy.locate or None
-        timestamps:     list of floats, timestamps for the frames
-        pixel_aspect:         aspect ratio of pixels
-        diameter:    diameters for feature highlighting
-        normalize:      tuple, lower and upper percentile of data to scale
-                        colormap to
-    
-    @dependencies:
-        from matplotlib import pyplot as plt
-        from matplotlib.patches import Ellipse
-        from matplotlib.colors import Normalize
-        import scipy as sp
-        import pandas
-        
-    @returns:
-        dynamic videoscroller instance that can be called with keybindings to
-        update the displayed frame
-        
-    """
-    
-    def __init__(self,figure,axes,images,features=pd.DataFrame(columns=['x','y','frame']),
-                 timestamps=[],aspect=1,xdiam=3,ydiam=3,normalize=(0,100)):
-        """initialize the stackscroller class, assign relevant variables"""
-        
-        #assign properties
-        self.fig = figure
-        self.ax = axes
-        self.frame = 0       
-        self.images = images
-        self.features = features
-        self.t = timestamps
-        self.xdiam = xdiam
-        self.ydiam = ydiam
-        self.nframes = len(images)
-        
-        #create the imshow
-        colorscale = Normalize(vmin=np.percentile(images,normalize[0]),vmax=np.percentile(images,normalize[1]))
-        self.im = self.ax.imshow(self.images[self.frame],aspect=aspect,norm=colorscale)
-        self.update()
-        
-    def onscroll(self, event):
-        """when scroll wheel is used, scroll through time"""
-        if event.button == 'up':
-            self.frame = (self.frame + 1) % self.nframes
-        else:
-            self.frame = (self.frame - 1) % self.nframes
-        self.update()
-    
-    def onarrow(self, event):
-        """
-        when arrow up or down button are pressed, skip 10 frames, when arrow
-        left or right are used scroll through time
-        """
-        if event.key == 'up':
-            self.frame = (self.frame + 10) % self.nframes
-        elif event.key == 'down':
-            self.frame = (self.frame - 10) % self.nframes
-        elif event.key == 'right':
-            self.frame = (self.frame + 1) % self.nframes
-        elif event.key == 'left':
-            self.frame = (self.frame - 1) % self.nframes
-        self.update()
-
-    def update(self):
-        """replot the figure and features"""
-        #remove old patches if exist (in reverse order, this is necessary!)
-        if len(self.ax.patches)!=0:
-            [p.remove() for p in reversed(self.ax.patches)]
-            
-        #reset data and features
-        self.im.set_data(self.images[self.frame])
-        framefeatures = self.features.loc[self.features['frame']==self.frame]
-        for x,y in zip(framefeatures['x'],framefeatures['y']):
-            point = Ellipse((x,y),self.xdiam,self.ydiam,ec='r',fc='none')
-            self.ax.add_patch(point)
-        
-        #put current time in image title, use frameindex when no timestamps are given
-        if len(self.t) != self.nframes:
-            self.ax.set_title('t: {0} of {1}'.format(self.frame,self.nframes))
-        else:
-            self.ax.set_title('t: {:0.2f} of {:0.2f}'.format(self.t[self.frame],self.t[-1]))
-        
         self.im.axes.figure.canvas.draw()
