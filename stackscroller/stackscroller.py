@@ -120,6 +120,7 @@ class stackscroller:
             self._print_options()
         self._set_view_xy()
         self._update()
+        plt.show(block=False)
     
     def _on_key(self,event):
         """
@@ -495,6 +496,7 @@ class videoscroller:
         if print_options:
             self._print_options()
         self._update()
+        plt.show(block=False)
     
     def _on_key(self,event):
         """
