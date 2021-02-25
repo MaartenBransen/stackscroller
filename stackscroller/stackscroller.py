@@ -19,32 +19,32 @@ class stackscroller:
     Parameters
     ----------
     stack : numpy.ndarray
-        the pixel values, must have shape ([t,]z,y,x)
+        the pixel values, must have shape `([t,]z,y,x)`
     features : pandas DataFrame, optional
         particle positions as formatted by from trackpy.locate for xyz or 
         from trackpy.link for xyzt. The default is no particles.
     pixel_aspect : tuple of float, optional
         (z,y,x) pixel size(ratio) for correct aspect ratio.  The default is
-        (1,1,1).
+        `(1,1,1)`.
     diameter : tuple of float, optional
         (z,y,x) diameters for feature highlighting. The default is
-        (10,10,10).
+        `(10,10,10)`.
     colormap : str, optional
         matplotlib colormap name for visualising the data. The default is
-        'inferno'.
+        `'inferno'`.
     colormap_percentile : tuple of 2 values from 0 to 100
         lower and upper percentile of the data values to use for the min and 
-        max value limits of the colormap scaling
+        max value limits of the colormap scaling. The default is `(0.01,99.99)`
     timesteps : list of floats/ints
         time values for each frame to display. The default is the frame index 
         numbers.        
     print_options : bool
         prints the keybindings and instructions how to use to the terminal. The
-        default is True.
+        default is `True`.
 
     Returns
     -------
-    stackscroller class instance
+    stackscroller :
         dynamic stackscroller instance that can be called with keybindings
         to update the displayed frame
     """
@@ -59,22 +59,25 @@ class stackscroller:
             timesteps = None,
             print_options = True
             ):
-        """
-        initialize the class instance, create the figure and link keybindings
-        """
         #check and correct dimensionality
         if len(np.shape(stack)) == 3:
-            self.stack = stack.reshape(1,np.shape(stack)[0],np.shape(stack)[1],np.shape(stack)[2])
+            self.stack = stack.reshape(
+                1,
+                np.shape(stack)[0],
+                np.shape(stack)[1],
+                np.shape(stack)[2]
+            )
         elif len(np.shape(stack)) == 4:
             self.stack = np.array(stack)
         else:
-            raise ValueError('[stackscroller]: stack must be 3 or 4 dimensional')
+            raise ValueError('stack must be 3 or 4 dimensional')
 
         #check timesteps
         if type(timesteps) == type(None):
             self.use_timesteps = False
         elif len(timesteps) != len(stack):
-            raise ValueError('[Stackscroller]: number of timesteps must be equal to length of the stack.')
+            raise ValueError('[Stackscroller]: number of timesteps must be '+
+                             'equal to length of the stack.')
         else:
             self.use_timesteps = True
             self.timesteps = timesteps
@@ -113,7 +116,10 @@ class stackscroller:
         self.fig.canvas.mpl_connect('key_press_event', self.on_key)
         
         #color scaling
-        self.norm = Normalize(vmin=np.percentile(stack,colormap_percentile[0]),vmax=np.percentile(stack,colormap_percentile[1]))
+        self.norm = Normalize(
+            vmin=np.percentile(stack,colormap_percentile[0]),
+            vmax=np.percentile(stack,colormap_percentile[1])
+        )
         
         #start
         if print_options:
@@ -405,28 +411,27 @@ class videoscroller:
         default is no particles.
     pixel_aspect : tuple of float, optional
         (y,x) pixel size(ratio) for correct aspect ratio.  The default is
-        (1,1).
+        `(1,1)`.
     diameter : tuple of float, optional
-        (y,x) diameters for feature highlighting. The default is
-        (10,10).
+        (y,x) diameters for feature highlighting. The default is `(10,10)`.
     colormap : str, optional
         matplotlib colormap name for visualising the data. The default is
-        'inferno'.
+        `'inferno'`.
     colormap_percentile : tuple of 2 values from 0 to 100
         lower and upper percentile of the data values to use for the min and 
-        max value limits of the colormap scaling
+        max value limits of the colormap scaling. The default is `(0.01,99.99)`
     timesteps : list of floats/ints
         list of time stamps for the video frames to display. The default is the
         frame index numbers.
     print_options : bool
         prints the keybindings and instructions how to use to the terminal. The
-        default is True.
+        default is `True`.
 
     Returns
     -------
-    stackscroller class instance
-        dynamic stackscroller instance that can be called with keybindings
-        to update the displayed frame
+    videoscroller :
+        dynamic videoscroller instance that can be called with keybindings
+        to update the displayed frame, when stored to a global variable.
     """
     def __init__(
             self,
@@ -439,10 +444,6 @@ class videoscroller:
             timesteps = None,
             print_options = True
             ):
-        """
-        initialize the class instance, create the figure and link keybindings
-        """
-
         #store input
         self.stack = np.array(stack)
         self.shape = np.shape(self.stack)
@@ -454,7 +455,8 @@ class videoscroller:
         if type(timesteps) == type(None):
             self.use_timesteps = False
         elif len(timesteps) != len(stack):
-            raise ValueError('[Stackscroller]: number of timesteps must be equal to length of the stack.')
+            raise ValueError('[Stackscroller]: number of timesteps must be '+
+                             'equal to length of the stack.')
         else:
             self.use_timesteps = True
             self.timesteps = timesteps
@@ -474,17 +476,20 @@ class videoscroller:
         self.t = 0
 
         #color scaling
-        self.norm = Normalize(vmin=np.percentile(stack,colormap_percentile[0]),vmax=np.percentile(stack,colormap_percentile[1]))
+        self.norm = Normalize(
+            vmin=np.percentile(stack,colormap_percentile[0]),
+            vmax=np.percentile(stack,colormap_percentile[1])
+        )
 
         #create the figure window
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111)
         self.im = self.ax.imshow(
-                self.stack[self.t],
-                aspect = self.pixel_aspect[0]/self.pixel_aspect[1],
-                norm = self.norm,
-                cmap = self.cmap
-                )
+            self.stack[self.t],
+            aspect = self.pixel_aspect[0]/self.pixel_aspect[1],
+            norm = self.norm,
+            cmap = self.cmap
+        )
         self.ax.set_xlabel('x')
         self.ax.set_ylabel('y')
 
@@ -545,7 +550,13 @@ class videoscroller:
             #select and plot features for current frame
             framefeatures = self.features[self.features['frame']==self.t]
             for x,y in zip(framefeatures['x'],framefeatures['y']):
-                point = Ellipse((x,y),self.diameter[1],self.diameter[0],ec='r',fc='none')
+                point = Ellipse(
+                    (x,y),
+                    self.diameter[1],
+                    self.diameter[0],
+                    ec='r',
+                    fc='none'
+                )
                 self.ax.add_patch(point)
 
         #title
