@@ -8,6 +8,7 @@ Library for visualizing 2-dimensional and 3-dimensional time series with optiona
 - email:          m.bransen@uu.nl
 
 ## Installation
+### PIP
 This package can be installed directly from GitHub using pip:
 ```
 pip install git+https://github.com/MaartenBransen/stackscroller
@@ -18,6 +19,11 @@ When using the Anaconda distribution, it is safer to run the conda version of pi
 conda install pip
 conda install git
 pip install git+https://github.com/MaartenBransen/stackscroller
+```
+### Updating
+Updating to the most recent version can be done by running pip with the `--upgrade`  flag:
+```
+pip install --upgrade git+https://github.com/MaartenBransen/stackscroller
 ```
 
 ## Usage
