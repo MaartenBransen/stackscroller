@@ -113,7 +113,7 @@ class stackscroller:
         self.ax = self.fig.add_subplot(111)
         
         #interactive handles
-        self.fig.canvas.mpl_connect('key_press_event', self.on_key)
+        self.fig.canvas.mpl_connect('key_press_event', self._on_key)
         
         #color scaling
         self.norm = Normalize(
@@ -494,7 +494,7 @@ class videoscroller:
         self.ax.set_ylabel('y')
 
         #interactive handles
-        self.fig.canvas.mpl_connect('key_press_event', self.on_key)
+        self.fig.canvas.mpl_connect('key_press_event', self._on_key)
 
 
         #start
