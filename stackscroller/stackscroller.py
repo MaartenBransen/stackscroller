@@ -445,7 +445,7 @@ class videoscroller:
             print_options = True
             ):
         #store input
-        self.stack = np.array(stack)
+        self.stack = stack
         self.shape = np.shape(self.stack)
         self.diameter = diameter
         self.pixel_aspect = pixel_aspect
@@ -474,6 +474,8 @@ class videoscroller:
         self.x = 0
         self.y = 0
         self.t = 0
+        
+        #allow for the series to not start at 0
         if hasattr(stack[0], 'frame_no'):
             self.t_offset = stack[0].frame_no
         else:
@@ -553,6 +555,8 @@ class videoscroller:
             
             #select and plot features for current frame
             framefeatures = self.features.loc[
+                self.features['frame'] == self.t + self.t_offset
+            ]
             for x,y in zip(framefeatures['x'],framefeatures['y']):
                 point = Ellipse(
                     (x,y),
@@ -565,11 +569,11 @@ class videoscroller:
 
         #title
         if self.use_timesteps:
-                self.timesteps[-1]
-            ))
             self.ax.set_title(
                 'time: {:.3f} of {:.3f} s'.format(
                     self.timesteps[self.t],
+                    self.timesteps[-1]
+                )
             )
         elif self.t_offset != 0:
             self.ax.set_title(
@@ -577,8 +581,15 @@ class videoscroller:
                     self.t + self.t_offset,
                     self.t,
                     self.shape[0]
+                )
+            )
         else:
             self.ax.set_title(
+                'frame {:} of {:}'.format(
+                    self.t,
+                    self.shape[0]
+                )
+            )
 
         #draw figure
         self.im.axes.figure.canvas.draw()
