@@ -128,6 +128,15 @@ class stackscroller:
         self._update()
         plt.show(block=False)
     
+    def __repr__(self):
+        """interpreter string representation of stackscroller object"""
+        return f"<stackscroller.stackscroller()> with shape {self.shape}"
+    
+    def __del__(self):
+        """close figure and give warning upon garbage collection"""
+        self.fig.close()
+        print('closing',self)
+    
     def _on_key(self,event):
         """
         when a key is pressed, increment and update plot
@@ -508,6 +517,15 @@ class videoscroller:
             self._print_options()
         self._update()
         plt.show(block=False)
+    
+    def __repr__(self):
+        """interpreter string representation of stackscroller object"""
+        return f"<stackscroller.videoscroller()> with shape {self.shape}"
+    
+    def __del__(self):
+        """close figure and give warning upon garbage collection"""
+        self.fig.close()
+        print('closing',self)
     
     def _on_key(self,event):
         """
