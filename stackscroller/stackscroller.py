@@ -134,8 +134,8 @@ class stackscroller:
     
     def __del__(self):
         """close figure and give warning upon garbage collection"""
-        self.fig.close()
-        print('closing',self)
+        plt.close(self.fig)
+        #print('closing',self)
     
     def _on_key(self,event):
         """
@@ -524,8 +524,8 @@ class videoscroller:
     
     def __del__(self):
         """close figure and give warning upon garbage collection"""
-        self.fig.close()
-        print('closing',self)
+        plt.close(self.fig)
+        #print('closing',self)
     
     def _on_key(self,event):
         """
