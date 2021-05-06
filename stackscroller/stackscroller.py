@@ -405,7 +405,7 @@ class stackscroller:
         #draw figure
         self.im.axes.figure.canvas.draw()
                 
-
+from matplotlib.collections import EllipseCollection
 class videoscroller:
     """
     scroll through xyt series with highlighted features. Class instance must be
@@ -515,7 +515,7 @@ class videoscroller:
         #start
         if print_options:
             self._print_options()
-        self._update()
+        self._fastupdate()
         plt.show(block=False)
     
     def __repr__(self):
@@ -546,7 +546,7 @@ class videoscroller:
             self._print_options()
 
         #update the plot
-        self._update()
+        self._fastupdate()
     
     def _print_options(self):
         """prints list of options"""
@@ -584,6 +584,66 @@ class videoscroller:
                     fc='none'
                 )
                 self.ax.add_patch(point)
+
+        #title
+        if self.use_timesteps:
+            self.ax.set_title(
+                'time: {:.3f} of {:.3f} s'.format(
+                    self.timesteps[self.t],
+                    self.timesteps[-1]
+                )
+            )
+        elif self.t_offset != 0:
+            self.ax.set_title(
+                'frame {:} ({:} of {:})'.format(
+                    self.t + self.t_offset,
+                    self.t,
+                    self.shape[0]
+                )
+            )
+        else:
+            self.ax.set_title(
+                'frame {:} of {:}'.format(
+                    self.t,
+                    self.shape[0]
+                )
+            )
+
+        #draw figure
+        self.im.axes.figure.canvas.draw()
+        
+    def _fastupdate(self):
+        """replot the figure and features"""            
+        #reset data
+        self.im.set_data(self.stack[self.t])
+        
+        #add features
+        if self.use_features:
+            
+            #remove old collection
+            try:
+                self.ec.remove()
+            except:
+                AttributeError
+            
+            #select and plot features for current frame
+            framefeatures = self.features.loc[
+                self.features['frame'] == self.t + self.t_offset
+            ]
+            n = len(framefeatures)
+            pos = framefeatures[['x','y']].to_numpy()
+            self.ec = EllipseCollection(
+                [self.diameter[1]]*n,
+                [self.diameter[0]]*n,
+                0,
+                units='xy',
+                offsets = pos,
+                transOffset=self.ax.transData,
+                edgecolors='r',
+                facecolors='none'
+            )
+
+            self.ax.add_collection(self.ec)
 
         #title
         if self.use_timesteps:
