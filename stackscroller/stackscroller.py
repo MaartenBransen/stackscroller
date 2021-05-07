@@ -107,11 +107,24 @@ class stackscroller:
             self.use_features = True
             self.cols = [frame_col]+list(pos_cols)
             
+            #check if there's a frame column in case of no time dimension
             if frame_col not in features.columns:
                 features = features.copy()
                 features[frame_col] = [0]*len(features)
             
             self.features = features[self.cols].copy()
+            
+            #check for color column, if it exists split it into timesteps
+            if 'stackscroller_color' in features.columns:
+                self.colors = [
+                    features.loc[
+                        features[frame_col]==t
+                    ]['stackscroller_color'].to_numpy() \
+                        for t in range(self.shape[0])
+                ]
+            else:
+                self.colors = False
+                self.c = 'r'
         
         #set starting positions to 0
         self.x = 0
@@ -400,9 +413,14 @@ class stackscroller:
                 AttributeError
             
             #select features to display
-            slicefeatures = self.f[np.logical_and(
-                    self.f[:,0] >= self.slice - self.d[0],
-                    self.f[:,0] <  self.slice + self.d[0])]
+            mask = np.logical_and(
+                self.f[:,0] >= self.slice - self.d[0],
+                self.f[:,0] <  self.slice + self.d[0]
+            )
+            slicefeatures = self.f[mask]
+            
+            if self.colors:
+                self.c = self.colors[self.t][mask]
             
             #calculate shrink factor for xy diameter, depending on particle 
             #z offset from current display slice
@@ -416,7 +434,7 @@ class stackscroller:
                 units='xy',
                 offsets = slicefeatures[:,[2,1]],
                 transOffset=self.ax.transData,
-                edgecolors='r',
+                edgecolors=self.c,
                 facecolors='none'
             )
 
@@ -536,7 +554,7 @@ class videoscroller:
         #if they are, convert coords to list of numpy arrays
         else:
             self.use_features = True
-
+            #use frame_col if it is there
             if frame_col in features.columns:
                 self.features = [
                     features.loc[
@@ -544,10 +562,27 @@ class videoscroller:
                     ][list(pos_cols)].to_numpy() for t in \
                         range(self.t_offset,self.t_offset+self.shape[0])
                 ]
+            #otherwise assume all features in first timestep
             else:
                 self.features = \
                     [features[pos_cols].to_numpy()] + \
                     [features.loc[[]][pos_cols]]*(self.shape[0]-1)
+            
+            #check for color column, if it exists split it into timesteps
+            if 'stackscroller_color' in features.columns:
+                if frame_col in features.columns:
+                    self.colors = [
+                        features.loc[
+                            features[frame_col]==t
+                        ]['stackscroller_color'].to_numpy() \
+                        for t in range(self.shape[0])
+                    ]
+                else:
+                    self.colors = [features['stackscroller_color'].to_numpy()]\
+                        + [[]]*(self.shape[0]-1)
+            else:
+                self.colors = False
+                self.c = 'r'
         
         #color scaling
         self.norm = Normalize(
@@ -632,9 +667,14 @@ class videoscroller:
             except:
                 AttributeError
             
-            #select and plot features for current frame
+            #select features for current frame
             framefeatures = self.features[self.t]
             n = len(framefeatures)
+            
+            if self.colors:
+                self.c = self.colors[self.t]
+            
+            #plot features onto image
             self.ec = EllipseCollection(
                 [self.diameter[1]]*n,
                 [self.diameter[0]]*n,
@@ -642,7 +682,7 @@ class videoscroller:
                 units='xy',
                 offsets = framefeatures[:,[1,0]],
                 transOffset=self.ax.transData,
-                edgecolors='r',
+                edgecolors=self.c,
                 facecolors='none'
             )
 
