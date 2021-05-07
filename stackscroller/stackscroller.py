@@ -18,10 +18,20 @@ class stackscroller:
     Parameters
     ----------
     stack : numpy.ndarray
-        the pixel values, must have shape `([t,]z,y,x)`
+        the pixel values, must be three- or four dimensional with dimension 
+        order `([t,]z,y,x)`.
     features : pandas DataFrame, optional
-        particle positions as formatted by from trackpy.locate for xyz or 
-        from trackpy.link for xyzt. The default is no particles.
+        dataframe with feature positions to highlight with circles on the 
+        image. Must contain 3 columns with feature positions (in units of 
+        pixels) for the z, y and x dimensions, with column headers matching 
+        `pos_cols`. Additionally, a column indicating to which (integer) time 
+        index the features belong can be provided with a column header matching
+        `frame_col`. This matches the output of trackpy.locate for xyz or 
+        from trackpy.link for xyzt. The highlight color for features is `r` 
+        (red) by default, but can be set on a per-feature basis by including a
+        column named `stackscroller_color` in the DataFrame where each item is
+        a valid color specifier for Matplotlib patch colors. The default is 
+        not to highlight any features.
     pixel_aspect : tuple of float, optional
         (z,y,x) pixel size(ratio) for correct aspect ratio.  The default is
         `(1,1,1)`.
@@ -473,8 +483,17 @@ class videoscroller:
     stack : numpy.ndarray
         the pixel values, must have shape (t,y,x)
     features : pandas DataFrame, optional
-        particle positions as formatted by from trackpy.locate/batch. The 
-        default is no particles.
+        dataframe with feature positions to highlight with circles on the 
+        image. Must contain 2 columns with feature positions (in units of 
+        pixels) for the y and x dimensions, with column headers matching 
+        `pos_cols`. Additionally, a column indicating to which (integer) time 
+        index the features belong can be provided with a column header matching
+        `frame_col`. This matches the output of trackpy.locate for xy or 
+        from trackpy.link for xyt. The highlight color for features is `r` 
+        (red) by default, but can be set on a per-feature basis by including a
+        column named `stackscroller_color` in the DataFrame where each item is
+        a valid color specifier for Matplotlib patch colors. The default is 
+        not to highlight any features.
     pixel_aspect : tuple of float, optional
         (y,x) pixel size(ratio) for correct aspect ratio.  The default is
         `(1,1)`.
