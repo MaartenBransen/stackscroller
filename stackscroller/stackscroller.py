@@ -6,9 +6,8 @@ last updated:   13-08-2020
 """
 
 import matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse
+from matplotlib.collections import EllipseCollection
 from matplotlib.colors import Normalize
-import pandas as pd
 import numpy as np
 
 class stackscroller:
@@ -93,7 +92,7 @@ class stackscroller:
             self.use_features = False
         else:
             self.use_features = True
-            self.features = features.copy()
+            self.features = features[['frame','z','y','x']].copy()
             
             if 'frame' not in self.features.columns:
                 self.features['frame'] = [0]*len(features)
@@ -209,7 +208,7 @@ class stackscroller:
         """set data to correct timestep"""
         self.data = self.oriented_stack[self.t]
         if self.use_features:
-            self.f = self.oriented_features[self.oriented_features[:,0]==self.t]
+            self.f = self.oriented_features[self.t,1:]
     
     def _set_view_xy(self):
         """
@@ -227,11 +226,8 @@ class stackscroller:
         self.axis = 1
         self.oriented_stack = self.stack.copy()
         if self.use_features:
-            self.oriented_features = np.array([
-                    self.features['frame'],
-                    self.features['z'],
-                    self.features['y'],
-                    self.features['x']]).transpose()
+            self.oriented_features = \
+                self.features[['frame','z','y','x']].to_numpy()
             self.d = (self.diameter[0]*0.7,self.diameter[1],self.diameter[2])
         self.slice = self.z
         self._set_time()
@@ -276,11 +272,8 @@ class stackscroller:
         self.axis = 2
         self.oriented_stack = np.swapaxes(self.stack,1,2)
         if self.use_features:
-            self.oriented_features = np.array([
-                    self.features['frame'],
-                    self.features['y'],
-                    self.features['z'],
-                    self.features['x']]).transpose()
+            self.oriented_features = \
+                self.features[['frame','y','z','x']].to_numpy()
             self.d = (self.diameter[1]*0.7,self.diameter[0],self.diameter[2])
         self.slice = self.y
         self._set_time()
@@ -325,11 +318,8 @@ class stackscroller:
         self.axis = 3
         self.oriented_stack = np.swapaxes(self.stack.copy(),1,3)
         if self.use_features:
-            self.oriented_features = np.array([
-                    self.features['frame'],
-                    self.features['x'],
-                    self.features['y'],
-                    self.features['z']]).transpose()
+            self.oriented_features = \
+                self.features[['frame','x','y','z']].to_numpy()
             self.d = (self.diameter[2]*0.7,self.diameter[1],self.diameter[0])
         self.slice = self.x
         self._set_time()
@@ -366,21 +356,34 @@ class stackscroller:
         #add features
         if self.use_features:
             
-            #remove old patches if exist (in reverse order, this is necessary!)
-            if len(self.ax.patches)!=0:
-                [p.remove() for p in reversed(self.ax.patches)]
+            #remove EllipseCollection if it exists
+            try:
+                self.ec.remove()
+            except:
+                AttributeError
             
             #select features to display
             slicefeatures = self.f[np.logical_and(
-                    self.f[:,1] >= self.slice - self.d[0],
-                    self.f[:,1] <  self.slice + self.d[0])]
-        
-            #print features
-            d = self.d[0]**4
-            for x,y,z in zip(slicefeatures[:,3],slicefeatures[:,2],slicefeatures[:,1]):
-                r = (1-(z-self.slice)**4/d)
-                point = Ellipse((x,y),self.d[2]*r,self.d[1]*r,ec='r',fc='none')
-                self.ax.add_patch(point)
+                    self.f[:,0] >= self.slice - self.d[0],
+                    self.f[:,0] <  self.slice + self.d[0])]
+            
+            #calculate shrink factor for xy diameter, depending on particle 
+            #z offset from current display slice
+            r = (1-(slicefeatures[:,0]-self.slice)**4/self.d[0]**4)
+            
+            #plot features for current frame
+            self.ec = EllipseCollection(
+                r*self.d[2],
+                r*self.d[1],
+                0,
+                units='xy',
+                offsets = slicefeatures[:,[2,1]],
+                transOffset=self.ax.transData,
+                edgecolors='r',
+                facecolors='none'
+            )
+
+            self.ax.add_collection(self.ec)
 
         #title
         if self.use_timesteps:
@@ -405,7 +408,6 @@ class stackscroller:
         #draw figure
         self.im.axes.figure.canvas.draw()
                 
-from matplotlib.collections import EllipseCollection
 class videoscroller:
     """
     scroll through xyt series with highlighted features. Class instance must be
@@ -460,7 +462,7 @@ class videoscroller:
         self.pixel_aspect = pixel_aspect
         self.cmap = colormap
 
-                #check timesteps
+        #check timesteps
         if type(timesteps) == type(None):
             self.use_timesteps = False
         elif len(timesteps) != len(stack):
@@ -470,15 +472,6 @@ class videoscroller:
             self.use_timesteps = True
             self.timesteps = timesteps
 
-        #check if features are given
-        if type(features) == type(None):
-            self.use_features = False
-        else:
-            self.use_features = True
-            self.features = features.copy()
-            if 'frame' not in self.features.columns:
-                self.features['frame'] = [0]*len(features)
-        
         #set starting positions to 0
         self.x = 0
         self.y = 0
@@ -490,6 +483,21 @@ class videoscroller:
         else:
             self.t_offset = 0
 
+        #check if features are given
+        if type(features) == type(None):
+            self.use_features = False
+        else:
+            self.use_features = True
+
+            if 'frame' in features.columns:
+                self.features = [
+                    features.loc[features['frame'] == t + self.t_offset] \
+                    for t in range(self.t_offset,self.t_offset+self.shape[0])
+                ]
+            else:
+                self.features = [features]+[features.loc[[]]]*(self.shape[0]-1)
+            
+        
         #color scaling
         self.norm = Normalize(
             vmin=np.percentile(stack,colormap_percentile[0]),
@@ -515,7 +523,7 @@ class videoscroller:
         #start
         if print_options:
             self._print_options()
-        self._fastupdate()
+        self._update()
         plt.show(block=False)
     
     def __repr__(self):
@@ -546,7 +554,7 @@ class videoscroller:
             self._print_options()
 
         #update the plot
-        self._fastupdate()
+        self._update()
     
     def _print_options(self):
         """prints list of options"""
@@ -558,61 +566,8 @@ class videoscroller:
         print('| f: toggle fullscreen                   |')
         print('| h: print help/hotkeys                  |')
         print(' ---------------------------------------- ')
-
+        
     def _update(self):
-        """replot the figure and features"""            
-        #reset data
-        self.im.set_data(self.stack[self.t])
-        
-        #add features
-        if self.use_features:
-            
-            #remove old patches if exist (in reverse order, this is necessary!)
-            if len(self.ax.patches)!=0:
-                [p.remove() for p in reversed(self.ax.patches)]
-            
-            #select and plot features for current frame
-            framefeatures = self.features.loc[
-                self.features['frame'] == self.t + self.t_offset
-            ]
-            for x,y in zip(framefeatures['x'],framefeatures['y']):
-                point = Ellipse(
-                    (x,y),
-                    self.diameter[1],
-                    self.diameter[0],
-                    ec='r',
-                    fc='none'
-                )
-                self.ax.add_patch(point)
-
-        #title
-        if self.use_timesteps:
-            self.ax.set_title(
-                'time: {:.3f} of {:.3f} s'.format(
-                    self.timesteps[self.t],
-                    self.timesteps[-1]
-                )
-            )
-        elif self.t_offset != 0:
-            self.ax.set_title(
-                'frame {:} ({:} of {:})'.format(
-                    self.t + self.t_offset,
-                    self.t,
-                    self.shape[0]
-                )
-            )
-        else:
-            self.ax.set_title(
-                'frame {:} of {:}'.format(
-                    self.t,
-                    self.shape[0]
-                )
-            )
-
-        #draw figure
-        self.im.axes.figure.canvas.draw()
-        
-    def _fastupdate(self):
         """replot the figure and features"""            
         #reset data
         self.im.set_data(self.stack[self.t])
@@ -627,9 +582,7 @@ class videoscroller:
                 AttributeError
             
             #select and plot features for current frame
-            framefeatures = self.features.loc[
-                self.features['frame'] == self.t + self.t_offset
-            ]
+            framefeatures = self.features[self.t]
             n = len(framefeatures)
             pos = framefeatures[['x','y']].to_numpy()
             self.ec = EllipseCollection(
