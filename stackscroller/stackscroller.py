@@ -6,9 +6,8 @@ last updated:   13-08-2020
 """
 
 import matplotlib.pyplot as plt
-from matplotlib.patches import Ellipse
+from matplotlib.collections import EllipseCollection
 from matplotlib.colors import Normalize
-import pandas as pd
 import numpy as np
 
 class stackscroller:
@@ -19,16 +18,35 @@ class stackscroller:
     Parameters
     ----------
     stack : numpy.ndarray
-        the pixel values, must have shape `([t,]z,y,x)`
+        the pixel values, must be three- or four dimensional with dimension 
+        order `([t,]z,y,x)`.
     features : pandas DataFrame, optional
-        particle positions as formatted by from trackpy.locate for xyz or 
-        from trackpy.link for xyzt. The default is no particles.
+        dataframe with feature positions to highlight with circles on the 
+        image. Must contain 3 columns with feature positions (in units of 
+        pixels) for the z, y and x dimensions, with column headers matching 
+        `pos_cols`. Additionally, a column indicating to which (integer) time 
+        index the features belong can be provided with a column header matching
+        `frame_col`. This matches the output of trackpy.locate for xyz or 
+        from trackpy.link for xyzt. The highlight color for features is `r` 
+        (red) by default, but can be set on a per-feature basis by including a
+        column named `stackscroller_color` in the DataFrame where each item is
+        a valid color specifier for Matplotlib patch colors. The default is 
+        not to highlight any features.
     pixel_aspect : tuple of float, optional
         (z,y,x) pixel size(ratio) for correct aspect ratio.  The default is
         `(1,1,1)`.
     diameter : tuple of float, optional
         (z,y,x) diameters for feature highlighting. The default is
         `(10,10,10)`.
+    pos_cols : tuple of str, optional
+        names/headers of the columns in `features` containing the positional 
+        data (in units of pixels) in (z,y,x) order. When `features=None`, 
+        `pos_cols` is ignored. The default is `('z','y','x')`.
+    frame_col : str, optional
+        name/header of the column in `features` containing the integer index
+        along the time dimension in `stack` the features correspond to. When
+        `features=None` or if `stack` has 3 dimensions, `frame_col` is ignored.
+        The default is `frame`.
     colormap : str, optional
         matplotlib colormap name for visualising the data. The default is
         `'inferno'`.
@@ -54,11 +72,14 @@ class stackscroller:
             features = None,
             pixel_aspect = (1,1,1),
             diameter = (10,10,10),
+            pos_cols = ('z','y','x'),
+            frame_col = 'frame',
             colormap = 'inferno',
             colormap_percentile = (0.01,99.99),
             timesteps = None,
             print_options = True
             ):
+        
         #check and correct dimensionality
         if len(np.shape(stack)) == 3:
             self.stack = stack.reshape(
@@ -89,14 +110,31 @@ class stackscroller:
         self.cmap = colormap
         
         #check if features are given
-        if type(features) == type(None):
+        if features is None:
             self.use_features = False
+        #if they are, store dataframe to attribute
         else:
             self.use_features = True
-            self.features = features.copy()
+            self.cols = [frame_col]+list(pos_cols)
             
-            if 'frame' not in self.features.columns:
-                self.features['frame'] = [0]*len(features)
+            #check if there's a frame column in case of no time dimension
+            if frame_col not in features.columns:
+                features = features.copy()
+                features[frame_col] = [0]*len(features)
+            
+            self.features = features[self.cols].copy()
+            
+            #check for color column, if it exists split it into timesteps
+            if 'stackscroller_color' in features.columns:
+                self.colors = [
+                    features.loc[
+                        features[frame_col]==t
+                    ]['stackscroller_color'].to_numpy() \
+                        for t in range(self.shape[0])
+                ]
+            else:
+                self.colors = False
+                self.c = 'r'
         
         #set starting positions to 0
         self.x = 0
@@ -209,7 +247,7 @@ class stackscroller:
         """set data to correct timestep"""
         self.data = self.oriented_stack[self.t]
         if self.use_features:
-            self.f = self.oriented_features[self.oriented_features[:,0]==self.t]
+            self.f = self.oriented_features[self.t]
     
     def _set_view_xy(self):
         """
@@ -227,11 +265,15 @@ class stackscroller:
         self.axis = 1
         self.oriented_stack = self.stack.copy()
         if self.use_features:
-            self.oriented_features = np.array([
-                    self.features['frame'],
-                    self.features['z'],
-                    self.features['y'],
-                    self.features['x']]).transpose()
+            #set features to list (t) of numpy.arrays (coords) with pos cols
+            #switched to the correct order for the current view
+            self.oriented_features = \
+                [
+                    self.features.loc[
+                        self.features[self.cols[0]]==t
+                        ][self.cols[1:]].to_numpy() \
+                    for t in range(self.shape[0])
+                ]
             self.d = (self.diameter[0]*0.7,self.diameter[1],self.diameter[2])
         self.slice = self.z
         self._set_time()
@@ -276,11 +318,15 @@ class stackscroller:
         self.axis = 2
         self.oriented_stack = np.swapaxes(self.stack,1,2)
         if self.use_features:
-            self.oriented_features = np.array([
-                    self.features['frame'],
-                    self.features['y'],
-                    self.features['z'],
-                    self.features['x']]).transpose()
+            #set features to list (t) of numpy.arrays (coords) with pos cols
+            #switched to the correct order for the current view
+            self.oriented_features = \
+                [
+                    self.features.loc[
+                        self.features[self.cols[0]]==t
+                        ][[self.cols[2],self.cols[1],self.cols[3]]].to_numpy()\
+                    for t in range(self.shape[0])
+                ]
             self.d = (self.diameter[1]*0.7,self.diameter[0],self.diameter[2])
         self.slice = self.y
         self._set_time()
@@ -325,11 +371,15 @@ class stackscroller:
         self.axis = 3
         self.oriented_stack = np.swapaxes(self.stack.copy(),1,3)
         if self.use_features:
-            self.oriented_features = np.array([
-                    self.features['frame'],
-                    self.features['x'],
-                    self.features['y'],
-                    self.features['z']]).transpose()
+            #set features to list (t) of numpy.arrays (coords) with pos cols
+            #switched to the correct order for the current view
+            self.oriented_features = \
+                [
+                    self.features.loc[
+                        self.features[self.cols[0]]==t
+                        ][[self.cols[3],self.cols[2],self.cols[1]]].to_numpy()\
+                    for t in range(self.shape[0])
+                ]
             self.d = (self.diameter[2]*0.7,self.diameter[1],self.diameter[0])
         self.slice = self.x
         self._set_time()
@@ -366,21 +416,39 @@ class stackscroller:
         #add features
         if self.use_features:
             
-            #remove old patches if exist (in reverse order, this is necessary!)
-            if len(self.ax.patches)!=0:
-                [p.remove() for p in reversed(self.ax.patches)]
+            #remove EllipseCollection if it exists
+            try:
+                self.ec.remove()
+            except:
+                AttributeError
             
             #select features to display
-            slicefeatures = self.f[np.logical_and(
-                    self.f[:,1] >= self.slice - self.d[0],
-                    self.f[:,1] <  self.slice + self.d[0])]
-        
-            #print features
-            d = self.d[0]**4
-            for x,y,z in zip(slicefeatures[:,3],slicefeatures[:,2],slicefeatures[:,1]):
-                r = (1-(z-self.slice)**4/d)
-                point = Ellipse((x,y),self.d[2]*r,self.d[1]*r,ec='r',fc='none')
-                self.ax.add_patch(point)
+            mask = np.logical_and(
+                self.f[:,0] >= self.slice - self.d[0],
+                self.f[:,0] <  self.slice + self.d[0]
+            )
+            slicefeatures = self.f[mask]
+            
+            if self.colors:
+                self.c = self.colors[self.t][mask]
+            
+            #calculate shrink factor for xy diameter, depending on particle 
+            #z offset from current display slice
+            r = (1-(slicefeatures[:,0]-self.slice)**4/self.d[0]**4)
+            
+            #plot features for current frame
+            self.ec = EllipseCollection(
+                r*self.d[2],
+                r*self.d[1],
+                0,
+                units='xy',
+                offsets = slicefeatures[:,[2,1]],
+                transOffset=self.ax.transData,
+                edgecolors=self.c,
+                facecolors='none'
+            )
+
+            self.ax.add_collection(self.ec)
 
         #title
         if self.use_timesteps:
@@ -405,7 +473,6 @@ class stackscroller:
         #draw figure
         self.im.axes.figure.canvas.draw()
                 
-
 class videoscroller:
     """
     scroll through xyt series with highlighted features. Class instance must be
@@ -416,13 +483,30 @@ class videoscroller:
     stack : numpy.ndarray
         the pixel values, must have shape (t,y,x)
     features : pandas DataFrame, optional
-        particle positions as formatted by from trackpy.locate/batch. The 
-        default is no particles.
+        dataframe with feature positions to highlight with circles on the 
+        image. Must contain 2 columns with feature positions (in units of 
+        pixels) for the y and x dimensions, with column headers matching 
+        `pos_cols`. Additionally, a column indicating to which (integer) time 
+        index the features belong can be provided with a column header matching
+        `frame_col`. This matches the output of trackpy.locate for xy or 
+        from trackpy.link for xyt. The highlight color for features is `r` 
+        (red) by default, but can be set on a per-feature basis by including a
+        column named `stackscroller_color` in the DataFrame where each item is
+        a valid color specifier for Matplotlib patch colors. The default is 
+        not to highlight any features.
     pixel_aspect : tuple of float, optional
         (y,x) pixel size(ratio) for correct aspect ratio.  The default is
         `(1,1)`.
     diameter : tuple of float, optional
         (y,x) diameters for feature highlighting. The default is `(10,10)`.
+    pos_cols : tuple of str, optional
+        names/headers of the columns in `features` containing the positional 
+        data (in units of pixels) in (y,x) order. When `features=None`, 
+        `pos_cols` is ignored. The default is `(y','x')`.
+    frame_col : str, optional
+        name/header of the column in `features` containing the integer index
+        along the time dimension in `stack` the features correspond to. When
+        `features=None`, `frame_col` is ignored. The default is `frame`.
     colormap : str, optional
         matplotlib colormap name for visualising the data. The default is
         `'inferno'`.
@@ -448,6 +532,8 @@ class videoscroller:
             features = None,
             pixel_aspect = (1,1),
             diameter = (10,10),
+            pos_cols = ('y','x'),
+            frame_col = 'frame',
             colormap = 'inferno',
             colormap_percentile = (0.01,99.99),
             timesteps = None,
@@ -460,7 +546,7 @@ class videoscroller:
         self.pixel_aspect = pixel_aspect
         self.cmap = colormap
 
-                #check timesteps
+        #check timesteps
         if type(timesteps) == type(None):
             self.use_timesteps = False
         elif len(timesteps) != len(stack):
@@ -470,15 +556,6 @@ class videoscroller:
             self.use_timesteps = True
             self.timesteps = timesteps
 
-        #check if features are given
-        if type(features) == type(None):
-            self.use_features = False
-        else:
-            self.use_features = True
-            self.features = features.copy()
-            if 'frame' not in self.features.columns:
-                self.features['frame'] = [0]*len(features)
-        
         #set starting positions to 0
         self.x = 0
         self.y = 0
@@ -490,6 +567,42 @@ class videoscroller:
         else:
             self.t_offset = 0
 
+        #check if features are given
+        if features is None:
+            self.use_features = False
+        #if they are, convert coords to list of numpy arrays
+        else:
+            self.use_features = True
+            #use frame_col if it is there
+            if frame_col in features.columns:
+                self.features = [
+                    features.loc[
+                        features[frame_col]==t+self.t_offset
+                    ][list(pos_cols)].to_numpy() for t in \
+                        range(self.t_offset,self.t_offset+self.shape[0])
+                ]
+            #otherwise assume all features in first timestep
+            else:
+                self.features = \
+                    [features[pos_cols].to_numpy()] + \
+                    [features.loc[[]][pos_cols]]*(self.shape[0]-1)
+            
+            #check for color column, if it exists split it into timesteps
+            if 'stackscroller_color' in features.columns:
+                if frame_col in features.columns:
+                    self.colors = [
+                        features.loc[
+                            features[frame_col]==t
+                        ]['stackscroller_color'].to_numpy() \
+                        for t in range(self.shape[0])
+                    ]
+                else:
+                    self.colors = [features['stackscroller_color'].to_numpy()]\
+                        + [[]]*(self.shape[0]-1)
+            else:
+                self.colors = False
+                self.c = 'r'
+        
         #color scaling
         self.norm = Normalize(
             vmin=np.percentile(stack,colormap_percentile[0]),
@@ -558,7 +671,7 @@ class videoscroller:
         print('| f: toggle fullscreen                   |')
         print('| h: print help/hotkeys                  |')
         print(' ---------------------------------------- ')
-
+        
     def _update(self):
         """replot the figure and features"""            
         #reset data
@@ -567,23 +680,32 @@ class videoscroller:
         #add features
         if self.use_features:
             
-            #remove old patches if exist (in reverse order, this is necessary!)
-            if len(self.ax.patches)!=0:
-                [p.remove() for p in reversed(self.ax.patches)]
+            #remove old collection
+            try:
+                self.ec.remove()
+            except:
+                AttributeError
             
-            #select and plot features for current frame
-            framefeatures = self.features.loc[
-                self.features['frame'] == self.t + self.t_offset
-            ]
-            for x,y in zip(framefeatures['x'],framefeatures['y']):
-                point = Ellipse(
-                    (x,y),
-                    self.diameter[1],
-                    self.diameter[0],
-                    ec='r',
-                    fc='none'
-                )
-                self.ax.add_patch(point)
+            #select features for current frame
+            framefeatures = self.features[self.t]
+            n = len(framefeatures)
+            
+            if self.colors:
+                self.c = self.colors[self.t]
+            
+            #plot features onto image
+            self.ec = EllipseCollection(
+                [self.diameter[1]]*n,
+                [self.diameter[0]]*n,
+                0,
+                units='xy',
+                offsets = framefeatures[:,[1,0]],
+                transOffset=self.ax.transData,
+                edgecolors=self.c,
+                facecolors='none'
+            )
+
+            self.ax.add_collection(self.ec)
 
         #title
         if self.use_timesteps:
