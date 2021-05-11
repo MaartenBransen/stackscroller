@@ -828,7 +828,7 @@ class videoscroller:
         #draw figure
         self.im.axes.figure.canvas.draw()
         
-    def export_export_images(self,animate_range=None,upsample=1,
+    def export_images(self,animate_range=None,upsample=1,
                         file_prefix='stackscroller',crop=None):
         """
         function that allows an animated stackscroller to be stored as a series
