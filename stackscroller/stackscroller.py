@@ -472,6 +472,100 @@ class stackscroller:
 
         #draw figure
         self.im.axes.figure.canvas.draw()
+        
+    def export_images(self,
+                      animate_dim='t',
+                      animate_range=None,
+                      display_dim='xy',
+                      crop=None,
+                      upsample=1,
+                      file_prefix='stackscroller'
+                      ):
+        """
+        function that allows an animated stackscroller to be stored as a series
+        of images, e.g. to turn into a video.
+
+        Parameters
+        ----------
+        animate_dim : one of ['t', 'z', 'y', 'x'], optional
+            The dimension to animate. The default is 't'.
+        animate_range : iterable of ints, optional
+            The indices for `animate_dim` to store images for. The default is 
+            None which uses all slices along that dimension.
+        display_dim : one of ['xy', 'xz', 'yz'], optional
+            the plane defining the image plane that is displayed. The default 
+            is 'xy'.
+        crop : tuple of ints, optional
+            only export a portion of the full image, specified either as the 
+            indices of the corners as `((xmin,ymin),(xmax,ymax))` or as the 
+            top left corner, width and height as `(xmin,xmax,w,h)`. The 
+            default is None which takes the full image.
+        upsample : float, optional
+            Factor to increase (or decrease) the pixel density for the image,
+            useful to assure the features are highlighted with higher 
+            resolution than the pixelsize of the original data. The default is 
+            1.
+        file_prefix : str, optional
+            name/prefix to use for the files which are saved in the current 
+            working directory. The default is 'stackscroller'.
+        """
+        #turn lines off for export
+        self.lines = False
+        
+        #set orientation
+        if display_dim == 'xy':
+            self.slice=self.z
+            self._set_view_xy()
+            aspect = self.pixel_aspect[1]/self.pixel_aspect[2]
+        elif display_dim == 'xz':
+            self.slice=self.y
+            self._set_view_xz()
+            aspect = self.pixel_aspect[0]/self.pixel_aspect[2]
+        elif display_dim == 'yz':
+            self.slice=self.x
+            self._set_view_yz()
+            aspect = self.pixel_aspect[1]/self.pixel_aspect[0]
+        self._set_time()
+        
+        #animation params
+        if animate_dim not in ('t','z','y','x'):
+            raise ValueError("animate_dim must be one of ['t','z','y','x']")
+        elif animate_dim in display_dim:
+            raise ValueError("animate_dim can't be one of the display_dims")      
+        
+        if animate_range is None:
+            if animate_dim == 't':
+                animate_range = range(self.shape[0])
+            elif animate_dim == 'z':
+                animate_range = range(self.shape[1])
+            elif animate_dim == 'y':
+                animate_range = range(self.shape[2])
+            else:
+                animate_range = range(self.shape[3])
+        
+        if crop is None:
+            shape = np.shape(self.oriented_stack)[-2:]
+            self.ax.set_xlim([0,shape[1]])
+            self.ax.set_ylim([0,shape[0]])
+        else:
+            if len(crop)==4:
+                crop = ((crop[0],crop[1]),(crop[0]+crop[2],crop[1]+crop[3]))
+            shape = (crop[1][1]-crop[0][1],crop[1][0]-crop[0][0])
+            self.ax.set_xlim([crop[0][0],crop[1][0]])
+            self.ax.set_ylim([crop[0][1],crop[1][1]])
+
+        #call base expot function
+        _export_scroller(self, shape, animate_dim, animate_range, 
+                         upsample, file_prefix, aspect)
+        
+        #restart figure to get axes etc back
+        plt.close(self.fig)
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111)
+        self.fig.canvas.mpl_connect('key_press_event', self._on_key)
+        self.slice = 0
+        self._set_view_xy()
+        self._update()
                 
 class videoscroller:
     """
@@ -733,3 +827,115 @@ class videoscroller:
 
         #draw figure
         self.im.axes.figure.canvas.draw()
+        
+    def export_export_images(self,animate_range=None,upsample=1,
+                        file_prefix='stackscroller',crop=None):
+        """
+        function that allows an animated stackscroller to be stored as a series
+        of images, e.g. to turn into a video.
+
+        Parameters
+        ----------
+        animate_range : iterable of ints, optional
+            The indices for the time dimension to store images for. The default
+            is None which uses all timesteps.
+        crop : tuple of ints, optional
+            only export a portion of the full image, specified either as the 
+            indices of the corners as `((xmin,ymin),(xmax,ymax))` or as the 
+            top left corner, width and height as `(xmin,xmax,w,h)`. The 
+            default is None which takes the full image.
+        upsample : float, optional
+            Factor to increase (or decrease) the pixel density for the image,
+            useful to assure the features are highlighted with higher 
+            resolution than the pixelsize of the original data. The default is 
+            1.
+        file_prefix : str, optional
+            name/prefix to use for the files which are saved in the current 
+            working directory. The default is 'stackscroller'.
+        """
+        #animation params
+        animate_dim = 't'
+        if animate_range is None:
+            animate_range = range(self.shape[0])
+        
+        if crop is None:
+            shape = self.shape[1:]
+            self.ax.set_xlim([0,shape[1]])
+            self.ax.set_ylim([0,shape[0]])
+        else:
+            if len(crop)==4:
+                crop = ((crop[0],crop[1]),(crop[0]+crop[2],crop[1]+crop[3]))
+            shape = (crop[1][1]-crop[0][1],crop[1][0]-crop[0][0])
+            self.ax.set_xlim([crop[0][0],crop[1][0]])
+            self.ax.set_ylim([crop[0][1],crop[1][1]])
+        aspect = self.pixel_aspect[0]/self.pixel_aspect[1]
+        
+        _export_scroller(self, shape, animate_dim, animate_range, 
+                         upsample, file_prefix, aspect)
+        
+        #restart figure to get axes etc back
+        plt.close(self.fig)
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111)
+        self.im = self.ax.imshow(
+            self.stack[self.t],
+            aspect = self.pixel_aspect[0]/self.pixel_aspect[1],
+            norm = self.norm,
+            cmap = self.cmap
+        )
+        self.ax.set_xlabel('x')
+        self.ax.set_ylabel('y')
+        self.fig.canvas.mpl_connect('key_press_event', self._on_key)
+        self._update()
+        
+def _export_scroller(scroller, shape, animate_dim, animate_range, upsample, 
+                     file_prefix, aspect):
+    """core function for saving scroller images as figures (e.g. for making)
+    videos"""
+    
+    #set size to match dpi and desired number of pixels
+    dpi= 96
+    scroller.fig.set_size_inches(
+        shape[1]*upsample/dpi,
+        shape[0]*upsample/dpi*aspect
+    )
+    
+    #set data area to take up full figure
+    scroller.fig.subplots_adjust(bottom=0,top=1,left=0,right=1)
+    
+    #format for export filename (with correct number of digits)
+    fmt = file_prefix+'_'+animate_dim + \
+        '{:0'+str(int(np.log10(len(animate_range)))+1)+'d}.png'
+    
+    #for time dim in stackscroller we need to call _set_time()
+    if isinstance(scroller,stackscroller) and animate_dim=='t':
+        settime = True
+    elif isinstance(scroller,stackscroller):
+        settime = False
+        animate_dim = 'slice'
+    else:
+        settime = False
+    
+    #make directory if it does not exist
+    import os
+    if not os.path.exists(file_prefix):
+        os.mkdir(file_prefix)
+    
+    #loop over all frames to export
+    for j,i in enumerate(animate_range):
+        
+        print(f'\rsaving Stackscroller image {j} of {len(animate_range)}',
+              end='')
+        
+        #set step and update fig
+        setattr(scroller,animate_dim,i)
+        if settime:
+            scroller._set_time()
+        scroller._update()
+        
+        #save figure
+        scroller.fig.savefig(
+            os.path.join(file_prefix,fmt.format(i)),
+            dpi = dpi,
+        )
+    print()
