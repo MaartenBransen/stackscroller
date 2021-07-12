@@ -1,6 +1,6 @@
 from .stackscroller import videoscroller,stackscroller
 
-___version___ = '0.3.1'
+___version___ = '0.3.2'
 
 #make visible for 'from stackscroller import *'
 __all__ = [
