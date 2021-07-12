@@ -274,7 +274,7 @@ class stackscroller:
                         ][self.cols[1:]].to_numpy() \
                     for t in range(self.shape[0])
                 ]
-            self.d = (self.diameter[0]*0.7,self.diameter[1],self.diameter[2])
+            self.d = (self.diameter[0],self.diameter[1],self.diameter[2])
         self.slice = self.z
         self._set_time()
         
@@ -327,7 +327,7 @@ class stackscroller:
                         ][[self.cols[2],self.cols[1],self.cols[3]]].to_numpy()\
                     for t in range(self.shape[0])
                 ]
-            self.d = (self.diameter[1]*0.7,self.diameter[0],self.diameter[2])
+            self.d = (self.diameter[1],self.diameter[0],self.diameter[2])
         self.slice = self.y
         self._set_time()
         
@@ -380,7 +380,7 @@ class stackscroller:
                         ][[self.cols[3],self.cols[2],self.cols[1]]].to_numpy()\
                     for t in range(self.shape[0])
                 ]
-            self.d = (self.diameter[2]*0.7,self.diameter[1],self.diameter[0])
+            self.d = (self.diameter[2],self.diameter[1],self.diameter[0])
         self.slice = self.x
         self._set_time()
         
@@ -434,7 +434,10 @@ class stackscroller:
             
             #calculate shrink factor for xy diameter, depending on particle 
             #z offset from current display slice
-            r = (1-(slicefeatures[:,0]-self.slice)**4/self.d[0]**4)
+            r = (1 - 4*(slicefeatures[:,0]-self.slice)**2/self.d[0]**2)
+            r[r<0] = 0
+            r = r**0.5
+            #r = (1-(slicefeatures[:,0]-self.slice)**4/self.d[0]**4)
             
             #plot features for current frame
             self.ec = EllipseCollection(
