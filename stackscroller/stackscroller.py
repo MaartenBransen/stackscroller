@@ -634,10 +634,14 @@ class videoscroller:
             colormap = 'inferno',
             colormap_percentile = (0.01,99.99),
             timesteps = None,
-            print_options = True
+            print_options = True,
+            lazy_load = False,
             ):
         #store input
-        self.stack = stack
+        if lazy_load:
+            self.stack = stack
+        else:
+            self.stack = np.array(stack)
         self.shape = np.shape(self.stack)
         self.diameter = diameter
         self.pixel_aspect = pixel_aspect
@@ -646,7 +650,7 @@ class videoscroller:
         #check timesteps
         if type(timesteps) == type(None):
             self.use_timesteps = False
-        elif len(timesteps) != len(stack):
+        elif len(timesteps) != self.shape[0]:
             raise ValueError('[Stackscroller]: number of timesteps must be '+
                              'equal to length of the stack.')
         else:
@@ -659,8 +663,8 @@ class videoscroller:
         self.t = 0
         
         #allow for the series to not start at 0
-        if hasattr(stack[0], 'frame_no'):
-            self.t_offset = stack[0].frame_no
+        if hasattr(self.stack[0], 'frame_no'):
+            self.t_offset = self.stack[0].frame_no
         else:
             self.t_offset = 0
 
@@ -702,8 +706,8 @@ class videoscroller:
         
         #color scaling
         self.norm = Normalize(
-            vmin=np.percentile(stack,colormap_percentile[0]),
-            vmax=np.percentile(stack,colormap_percentile[1])
+            vmin=np.percentile(self.stack,colormap_percentile[0]),
+            vmax=np.percentile(self.stack,colormap_percentile[1])
         )
 
         #create the figure window
