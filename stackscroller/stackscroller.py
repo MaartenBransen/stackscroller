@@ -1031,7 +1031,6 @@ class multichannel_stackscroller:
             
         #store input
         self.shape = np.shape(self.stack)[:-1]
-        self.diameter = diameter
         self.pixel_aspect = pixel_aspect
 
         #apply color scaling to stack
@@ -1079,6 +1078,7 @@ class multichannel_stackscroller:
             self.cols = [frame_col]+list(pos_cols)
             self.features = []
             self.colors = [[]]*self.shape[0]
+            self.diameters = [[]]*self.shape[0]
             
             #check if there's a frame column in case of no time dimension
             for i,feat in enumerate(features):
@@ -1086,21 +1086,54 @@ class multichannel_stackscroller:
                     feat = feat.copy()
                     feat[frame_col] = [0]*len(feat)
                 
+                #add features to cmap
+                self.features.append(feat[self.cols].copy())
+                
                 #check for color column, if it exists split it into timesteps
                 if 'stackscroller_color' in feat.columns:
                     for t in range(self.shape[0]):
                         self.colors[i].extend(
                             feat.loc[feat[frame_col]==t]['stackscroller_color'].to_numpy()
                         )
+                #otherwise use default colors matching colormap
+                else:
+                    cm = colormap[i]
+                    if cm == 'r':
+                        cm = (1,0.1,0.1)
+                    elif cm == 'g':
+                        cm = (0.1,1,0.1)
+                    elif cm == 'b':
+                        cm = (0.1,0.1,1)
+                    elif cm == 'y':
+                        cm = (1,1,0.1)
+                    elif cm == 'p':
+                        cm = (1,0.1,1)
+                    elif cm == 'c':
+                        cm = (0.1,1,1)
+                    elif cm == 'w':
+                        cm = (1,1,1)
+                    for t in range(self.shape[0]):
+                        self.colors[t].extend([cm]*(feat[frame_col]==t).sum())
+                    
+                #check if custom diameters are given
+                if 'stackscroller_color' in feat.columns:
+                    for t in range(self.shape[0]):
+                        self.diameters[i].extend(
+                            feat.loc[feat[frame_col]==t]['stackscroller_diameter'].to_numpy()
+                        )
+                #otherwise use entered diam
                 else:
                     for t in range(self.shape[0]):
-                        self.colors[t].extend([colormap[i]]*(feat[frame_col]==t).sum())
+                        nf = (feat[frame_col]==t).sum()
+                        self.diameters[t].extend([diameter[i]]*nf)
                     
-                self.features.append(feat[self.cols].copy())
             
             from pandas import concat
             self.features = concat(self.features)
             self.colors = [np.array(c) for c in self.colors]
+            self.diameters = [np.array(d) for d in self.diameters]
+            
+            
         
         #set starting positions to 0
         self.x = 0
@@ -1208,6 +1241,8 @@ class multichannel_stackscroller:
         self.data = self.oriented_stack[self.t]
         if self.use_features:
             self.f = self.oriented_features[self.t]
+            self.c = self.colors[self.t]
+            self.d = self.diam[self.t]
     
     def _set_view_xy(self):
         """
@@ -1234,7 +1269,7 @@ class multichannel_stackscroller:
                         ][self.cols[1:]].to_numpy() \
                     for t in range(self.shape[0])
                 ]
-            self.d = (self.diameter[0],self.diameter[1],self.diameter[2])
+            self.diam = self.diameters #no need to swap cols here
         self.slice = self.z
         self._set_time()
         
@@ -1285,7 +1320,7 @@ class multichannel_stackscroller:
                         ][[self.cols[2],self.cols[1],self.cols[3]]].to_numpy()\
                     for t in range(self.shape[0])
                 ]
-            self.d = (self.diameter[1],self.diameter[0],self.diameter[2])
+            self.diam = [d[:,[1,0,2]] for d in self.diameters]
         self.slice = self.y
         self._set_time()
         
@@ -1336,7 +1371,7 @@ class multichannel_stackscroller:
                         ][[self.cols[3],self.cols[2],self.cols[1]]].to_numpy()\
                     for t in range(self.shape[0])
                 ]
-            self.d = (self.diameter[2],self.diameter[1],self.diameter[0])
+            self.diam = [d[:,[2,1,0]] for d in self.diameters]
         self.slice = self.x
         self._set_time()
         
@@ -1378,30 +1413,28 @@ class multichannel_stackscroller:
             
             #select features to display
             mask = np.logical_and(
-                self.f[:,0] >= self.slice - self.d[0],
-                self.f[:,0] <  self.slice + self.d[0]
+                self.f[:,0] >= self.slice - self.d[:,0],
+                self.f[:,0] <  self.slice + self.d[:,0]
             )
             slicefeatures = self.f[mask]
-            
-            if self.colors:
-                self.c = self.colors[self.t][mask]
+            d = self.d[mask]
             
             #calculate shrink factor for xy diameter, depending on particle 
             #z offset from current display slice
-            r = (1 - 4*(slicefeatures[:,0]-self.slice)**2/self.d[0]**2)
+            r = (1 - 4*(slicefeatures[:,0]-self.slice)**2/d[:,0]**2)
             r[r<0] = 0
             r = r**0.5
             #r = (1-(slicefeatures[:,0]-self.slice)**4/self.d[0]**4)
             
             #plot features for current frame
             self.ec = EllipseCollection(
-                r*self.d[2],
-                r*self.d[1],
+                r*d[:,2],
+                r*d[:,1],
                 0,
                 units='xy',
                 offsets = slicefeatures[:,[2,1]],
                 transOffset=self.ax.transData,
-                edgecolors=self.c,
+                edgecolors=self.c[mask],
                 facecolors='none'
             )
 
