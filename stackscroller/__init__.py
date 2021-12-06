@@ -1,4 +1,5 @@
-from .stackscroller import videoscroller,stackscroller
+from .stackscroller import videoscroller,stackscroller,\
+    multichannel_stackscroller
 
 ___version___ = '0.3.2'
 
