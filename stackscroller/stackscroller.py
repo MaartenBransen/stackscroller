@@ -1012,7 +1012,7 @@ class multichannel_stackscroller:
             diameter = [(10,10,10),(10,10,10)],
             pos_cols = ('z','y','x'),
             frame_col = 'frame',
-            colormap = ['r','g'],
+            colormap = None,
             colormap_percentile = [(0.01,99.99),(0.01,99.99)],
             timesteps = None,
             print_options = True
@@ -1054,7 +1054,8 @@ class multichannel_stackscroller:
                                  ", 'y', 'p', 'c' and 'w'.")
             
             cp = np.percentile(ch, cp[0]),np.percentile(ch, cp[1])
-            self.stack[:,:,:,:,cm] += np.reshape(np.interp(ch,cp,[0,255]),(*self.shape,1))
+            self.stack[:,:,:,:,cm] += \
+                np.reshape(np.interp(ch,cp,[0,255]),(*self.shape,1))
         
         self.stack[self.stack>255]=255
         self.stack = self.stack.astype(np.uint8)
@@ -1080,6 +1081,9 @@ class multichannel_stackscroller:
             self.colors = [[]]*self.shape[0]
             self.diameters = [[]]*self.shape[0]
             
+            if colormap is None:
+                colormap = ['b','g','r','p','c','y','w']
+            
             #check if there's a frame column in case of no time dimension
             for i,feat in enumerate(features):
                 if frame_col not in feat.columns:
@@ -1093,7 +1097,8 @@ class multichannel_stackscroller:
                 if 'stackscroller_color' in feat.columns:
                     for t in range(self.shape[0]):
                         self.colors[i].extend(
-                            feat.loc[feat[frame_col]==t]['stackscroller_color'].to_numpy()
+                            feat.loc[feat[frame_col]==t][
+                                'stackscroller_color'].to_numpy()
                         )
                 #otherwise use default colors matching colormap
                 else:
@@ -1119,7 +1124,8 @@ class multichannel_stackscroller:
                 if 'stackscroller_color' in feat.columns:
                     for t in range(self.shape[0]):
                         self.diameters[i].extend(
-                            feat.loc[feat[frame_col]==t]['stackscroller_diameter'].to_numpy()
+                            feat.loc[feat[frame_col]==t][
+                                'stackscroller_diameter'].to_numpy()
                         )
                 #otherwise use entered diam
                 else:
