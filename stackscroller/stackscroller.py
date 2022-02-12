@@ -458,7 +458,7 @@ class stackscroller:
             self.ax.set_title(
                 self.title.format(
                     self.slice,
-                    self.shape[self.axis],
+                    self.shape[self.axis]-1,
                     self.timesteps[self.t],
                     self.timesteps[-1]
                 )
@@ -467,7 +467,7 @@ class stackscroller:
             self.ax.set_title(
                 self.title.format(
                     self.slice,
-                    self.shape[self.axis],
+                    self.shape[self.axis]-1,
                     self.t+1,
                     self.shape[0]
                 )
@@ -821,14 +821,14 @@ class videoscroller:
                 'frame {:} ({:} of {:})'.format(
                     self.t + self.t_offset,
                     self.t,
-                    self.shape[0]
+                    self.shape[0]-1
                 )
             )
         else:
             self.ax.set_title(
                 'frame {:} of {:}'.format(
                     self.t,
-                    self.shape[0]
+                    self.shape[0]-1
                 )
             )
 
