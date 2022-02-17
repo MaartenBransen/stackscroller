@@ -950,16 +950,17 @@ def _export_scroller(scroller, shape, animate_dim, animate_range, upsample,
 
 class multichannel_stackscroller:
     """
-    scroll through 3D stack with highlighted features. Class instance must be
-    stored to a global variable or the keybindings are lost.
+    scroll through multiple matching 3D stacks with highlighted features, such 
+    as in multichannel imaging. Class instance must be stored to a global 
+    variable or the keybindings are lost.
     
     Parameters
     ----------
-    stack : numpy.ndarray
-        the pixel values, must be three- or four dimensional with dimension 
-        order `([t,]z,y,x)`.
-    features : pandas DataFrame, optional
-        dataframe with feature positions to highlight with circles on the 
+    stack : list or tuple of numpy.ndarray
+        Image data array per channel, the pixel values, must be three- or four 
+        dimensional with dimension order `([t,]z,y,x)`.
+    features : list or tuple of pandas DataFrame, optional
+        dataframes with feature positions to highlight with circles on the 
         image. Must contain 3 columns with feature positions (in units of 
         pixels) for the z, y and x dimensions, with column headers matching 
         `pos_cols`. Additionally, a column indicating to which (integer) time 
@@ -985,12 +986,14 @@ class multichannel_stackscroller:
         along the time dimension in `stack` the features correspond to. When
         `features=None` or if `stack` has 3 dimensions, `frame_col` is ignored.
         The default is `frame`.
-    colormap : str, optional
-        matplotlib colormap name for visualising the data. The default is
-        `'inferno'`.
-    colormap_percentile : tuple of 2 values from 0 to 100
+    colormap : list or tuple of str, optional
+        colormap name for visualising the data for each channel, where
+        the name must be one of `['r','g','b','y','p','c','w'] for red, green,
+        blue, yellow, purple, cyan or white. The default is None.
+    colormap_percentile : list or tuple of tuple of 2 values from 0 to 100
         lower and upper percentile of the data values to use for the min and 
-        max value limits of the colormap scaling. The default is `(0.01,99.99)`
+        max value limits of the colormap scaling per channel. The default is 
+        `(0.01,99.99)` for each channel.
     timesteps : list of floats/ints
         time values for each frame to display. The default is the frame index 
         numbers.        
