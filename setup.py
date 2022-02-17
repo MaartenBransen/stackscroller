@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="stackscroller",
-    version="0.3.2",
+    version="0.4.0",
     author="Maarten Bransen",
     author_email="m.bransen@uu.nl",
     license='GNU General Public License v3.0',
