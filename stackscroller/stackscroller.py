@@ -988,7 +988,7 @@ class multichannel_stackscroller:
         The default is `frame`.
     colormap : list or tuple of str, optional
         colormap name for visualising the data for each channel, where
-        the name must be one of `['r','g','b','y','p','c','w'] for red, green,
+        the name must be one of `['r','g','b','y','p','c','w']` for red, green,
         blue, yellow, purple, cyan or white. The default is None.
     colormap_percentile : list or tuple of tuple of 2 values from 0 to 100
         lower and upper percentile of the data values to use for the min and 
