@@ -1027,7 +1027,7 @@ class multichannel_stackscroller:
             raise TypeError('stack must be list of numpy.ndarry')
         if len(np.shape(stack[0])) == 3:
             self.stack = np.empty((1,*np.shape(stack[0]),3))
-        elif len(np.shape(stack)) == 4:
+        elif len(np.shape(stack[0])) == 4:
             self.stack = np.empty((*np.shape(stack[0]),3))
         else:
             raise ValueError('stack must be 3 or 4 dimensional')
