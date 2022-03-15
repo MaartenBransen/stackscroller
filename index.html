@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>stackscroller API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Package <code>stackscroller</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="stackscroller.multichannel_stackscroller"><code class="flex name class">
+<span>class <span class="ident">multichannel_stackscroller</span></span>
+<span>(</span><span>stack, features=None, pixel_aspect=(1, 1, 1), diameter=[(10, 10, 10), (10, 10, 10)], pos_cols=('z', 'y', 'x'), frame_col='frame', colormap=None, colormap_percentile=[(0.01, 99.99), (0.01, 99.99)], timesteps=None, print_options=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>scroll through multiple matching 3D stacks with highlighted features, such
+as in multichannel imaging. Class instance must be stored to a global
+variable or the keybindings are lost.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>stack</code></strong> :&ensp;<code>list</code> or <code>tuple</code> of <code>numpy.ndarray</code></dt>
+<dd>Image data array per channel, the pixel values, must be three- or four
+dimensional with dimension order <code>([t,]z,y,x)</code>.</dd>
+<dt><strong><code>features</code></strong> :&ensp;<code>list</code> or <code>tuple</code> of <code>pandas DataFrame</code>, optional</dt>
+<dd>dataframes with feature positions to highlight with circles on the
+image. Must contain 3 columns with feature positions (in units of
+pixels) for the z, y and x dimensions, with column headers matching
+<code>pos_cols</code>. Additionally, a column indicating to which (integer) time
+index the features belong can be provided with a column header matching
+<code>frame_col</code>. This matches the output of trackpy.locate for xyz or
+from trackpy.link for xyzt. The highlight color for features is <code>r</code>
+(red) by default, but can be set on a per-feature basis by including a
+column named <code>stackscroller_color</code> in the DataFrame where each item is
+a valid color specifier for Matplotlib patch colors. The default is
+not to highlight any features.</dd>
+<dt><strong><code>pixel_aspect</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(z,y,x) pixel size(ratio) for correct aspect ratio.
+The default is
+<code>(1,1,1)</code>.</dd>
+<dt><strong><code>diameter</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(z,y,x) diameters for feature highlighting. The default is
+<code>(10,10,10)</code>.</dd>
+<dt><strong><code>pos_cols</code></strong> :&ensp;<code>tuple</code> of <code>str</code>, optional</dt>
+<dd>names/headers of the columns in <code>features</code> containing the positional
+data (in units of pixels) in (z,y,x) order. When <code>features=None</code>,
+<code>pos_cols</code> is ignored. The default is <code>('z','y','x')</code>.</dd>
+<dt><strong><code>frame_col</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>name/header of the column in <code>features</code> containing the integer index
+along the time dimension in <code>stack</code> the features correspond to. When
+<code>features=None</code> or if <code>stack</code> has 3 dimensions, <code>frame_col</code> is ignored.
+The default is <code>frame</code>.</dd>
+<dt><strong><code>colormap</code></strong> :&ensp;<code>list</code> or <code>tuple</code> of <code>str</code>, optional</dt>
+<dd>colormap name for visualising the data for each channel, where
+the name must be one of <code>['r','g','b','y','p','c','w']</code> for red, green,
+blue, yellow, purple, cyan or white. The default is None.</dd>
+<dt><strong><code>colormap_percentile</code></strong> :&ensp;<code>list</code> or <code>tuple</code> of <code>tuple</code> of <code>2 values from 0 to 100</code></dt>
+<dd>lower and upper percentile of the data values to use for the min and
+max value limits of the colormap scaling per channel. The default is
+<code>(0.01,99.99)</code> for each channel.</dd>
+<dt><strong><code>timesteps</code></strong> :&ensp;<code>list</code> of <code>floats/ints</code></dt>
+<dd>time values for each frame to display. The default is the frame index
+numbers.</dd>
+<dt><strong><code>print_options</code></strong> :&ensp;<code>bool</code></dt>
+<dd>prints the keybindings and instructions how to use to the terminal. The
+default is <code>True</code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>stackscroller :</code></dt>
+<dd>dynamic stackscroller instance that can be called with keybindings
+to update the displayed frame</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="stackscroller.multichannel_stackscroller.export_images"><code class="name flex">
+<span>def <span class="ident">export_images</span></span>(<span>self, animate_dim='t', animate_range=None, display_dim='xy', crop=None, upsample=1, file_prefix='stackscroller')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>function that allows an animated stackscroller to be stored as a series
+of images, e.g. to turn into a video.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>animate_dim</code></strong> :&ensp;<code>one</code> of <code>['t', 'z', 'y', 'x']</code>, optional</dt>
+<dd>The dimension to animate. The default is 't'.</dd>
+<dt><strong><code>animate_range</code></strong> :&ensp;<code>iterable</code> of <code>ints</code>, optional</dt>
+<dd>The indices for <code>animate_dim</code> to store images for. The default is
+None which uses all slices along that dimension.</dd>
+<dt><strong><code>display_dim</code></strong> :&ensp;<code>one</code> of <code>['xy', 'xz', 'yz']</code>, optional</dt>
+<dd>the plane defining the image plane that is displayed. The default
+is 'xy'.</dd>
+<dt><strong><code>crop</code></strong> :&ensp;<code>tuple</code> of <code>ints</code>, optional</dt>
+<dd>only export a portion of the full image, specified either as the
+indices of the corners as <code>((xmin,ymin),(xmax,ymax))</code> or as the
+top left corner, width and height as <code>(xmin,xmax,w,h)</code>. The
+default is None which takes the full image.</dd>
+<dt><strong><code>upsample</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Factor to increase (or decrease) the pixel density for the image,
+useful to assure the features are highlighted with higher
+resolution than the pixelsize of the original data. The default is
+1.</dd>
+<dt><strong><code>file_prefix</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>name/prefix to use for the files which are saved in the current
+working directory. The default is 'stackscroller'.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="stackscroller.stackscroller"><code class="flex name class">
+<span>class <span class="ident">stackscroller</span></span>
+<span>(</span><span>stack, features=None, pixel_aspect=(1, 1, 1), diameter=(10, 10, 10), pos_cols=('z', 'y', 'x'), frame_col='frame', colormap='inferno', colormap_percentile=(0.01, 99.99), timesteps=None, print_options=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>scroll through 3D stack with highlighted features. Class instance must be
+stored to a global variable or the keybindings are lost.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>stack</code></strong> :&ensp;<code>numpy.ndarray</code></dt>
+<dd>the pixel values, must be three- or four dimensional with dimension
+order <code>([t,]z,y,x)</code>.</dd>
+<dt><strong><code>features</code></strong> :&ensp;<code>pandas DataFrame</code>, optional</dt>
+<dd>dataframe with feature positions to highlight with circles on the
+image. Must contain 3 columns with feature positions (in units of
+pixels) for the z, y and x dimensions, with column headers matching
+<code>pos_cols</code>. Additionally, a column indicating to which (integer) time
+index the features belong can be provided with a column header matching
+<code>frame_col</code>. This matches the output of trackpy.locate for xyz or
+from trackpy.link for xyzt. The highlight color for features is <code>r</code>
+(red) by default, but can be set on a per-feature basis by including a
+column named <code>stackscroller_color</code> in the DataFrame where each item is
+a valid color specifier for Matplotlib patch colors. The default is
+not to highlight any features.</dd>
+<dt><strong><code>pixel_aspect</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(z,y,x) pixel size(ratio) for correct aspect ratio.
+The default is
+<code>(1,1,1)</code>.</dd>
+<dt><strong><code>diameter</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(z,y,x) diameters for feature highlighting. The default is
+<code>(10,10,10)</code>.</dd>
+<dt><strong><code>pos_cols</code></strong> :&ensp;<code>tuple</code> of <code>str</code>, optional</dt>
+<dd>names/headers of the columns in <code>features</code> containing the positional
+data (in units of pixels) in (z,y,x) order. When <code>features=None</code>,
+<code>pos_cols</code> is ignored. The default is <code>('z','y','x')</code>.</dd>
+<dt><strong><code>frame_col</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>name/header of the column in <code>features</code> containing the integer index
+along the time dimension in <code>stack</code> the features correspond to. When
+<code>features=None</code> or if <code>stack</code> has 3 dimensions, <code>frame_col</code> is ignored.
+The default is <code>frame</code>.</dd>
+<dt><strong><code>colormap</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>matplotlib colormap name for visualising the data. The default is
+<code>'inferno'</code>.</dd>
+<dt><strong><code>colormap_percentile</code></strong> :&ensp;<code>tuple</code> of <code>2 values from 0 to 100</code></dt>
+<dd>lower and upper percentile of the data values to use for the min and
+max value limits of the colormap scaling. The default is <code>(0.01,99.99)</code></dd>
+<dt><strong><code>timesteps</code></strong> :&ensp;<code>list</code> of <code>floats/ints</code></dt>
+<dd>time values for each frame to display. The default is the frame index
+numbers.</dd>
+<dt><strong><code>print_options</code></strong> :&ensp;<code>bool</code></dt>
+<dd>prints the keybindings and instructions how to use to the terminal. The
+default is <code>True</code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>stackscroller :</code></dt>
+<dd>dynamic stackscroller instance that can be called with keybindings
+to update the displayed frame</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="stackscroller.stackscroller.export_images"><code class="name flex">
+<span>def <span class="ident">export_images</span></span>(<span>self, animate_dim='t', animate_range=None, display_dim='xy', crop=None, upsample=1, file_prefix='stackscroller')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>function that allows an animated stackscroller to be stored as a series
+of images, e.g. to turn into a video.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>animate_dim</code></strong> :&ensp;<code>one</code> of <code>['t', 'z', 'y', 'x']</code>, optional</dt>
+<dd>The dimension to animate. The default is 't'.</dd>
+<dt><strong><code>animate_range</code></strong> :&ensp;<code>iterable</code> of <code>ints</code>, optional</dt>
+<dd>The indices for <code>animate_dim</code> to store images for. The default is
+None which uses all slices along that dimension.</dd>
+<dt><strong><code>display_dim</code></strong> :&ensp;<code>one</code> of <code>['xy', 'xz', 'yz']</code>, optional</dt>
+<dd>the plane defining the image plane that is displayed. The default
+is 'xy'.</dd>
+<dt><strong><code>crop</code></strong> :&ensp;<code>tuple</code> of <code>ints</code>, optional</dt>
+<dd>only export a portion of the full image, specified either as the
+indices of the corners as <code>((xmin,ymin),(xmax,ymax))</code> or as the
+top left corner, width and height as <code>(xmin,xmax,w,h)</code>. The
+default is None which takes the full image.</dd>
+<dt><strong><code>upsample</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Factor to increase (or decrease) the pixel density for the image,
+useful to assure the features are highlighted with higher
+resolution than the pixelsize of the original data. The default is
+1.</dd>
+<dt><strong><code>file_prefix</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>name/prefix to use for the files which are saved in the current
+working directory. The default is 'stackscroller'.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="stackscroller.videoscroller"><code class="flex name class">
+<span>class <span class="ident">videoscroller</span></span>
+<span>(</span><span>stack, features=None, pixel_aspect=(1, 1), diameter=(10, 10), pos_cols=('y', 'x'), frame_col='frame', colormap='inferno', colormap_percentile=(0.01, 99.99), timesteps=None, print_options=True, lazy_load=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>scroll through xyt series with highlighted features. Class instance must be
+stored to a global variable or the keybindings are lost.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>stack</code></strong> :&ensp;<code>numpy.ndarray</code></dt>
+<dd>the pixel values, must have shape (t,y,x)</dd>
+<dt><strong><code>features</code></strong> :&ensp;<code>pandas DataFrame</code>, optional</dt>
+<dd>dataframe with feature positions to highlight with circles on the
+image. Must contain 2 columns with feature positions (in units of
+pixels) for the y and x dimensions, with column headers matching
+<code>pos_cols</code>. Additionally, a column indicating to which (integer) time
+index the features belong can be provided with a column header matching
+<code>frame_col</code>. This matches the output of trackpy.locate for xy or
+from trackpy.link for xyt. The highlight color for features is <code>r</code>
+(red) by default, but can be set on a per-feature basis by including a
+column named <code>stackscroller_color</code> in the DataFrame where each item is
+a valid color specifier for Matplotlib patch colors. The default is
+not to highlight any features.</dd>
+<dt><strong><code>pixel_aspect</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(y,x) pixel size(ratio) for correct aspect ratio.
+The default is
+<code>(1,1)</code>.</dd>
+<dt><strong><code>diameter</code></strong> :&ensp;<code>tuple</code> of <code>float</code>, optional</dt>
+<dd>(y,x) diameters for feature highlighting. The default is <code>(10,10)</code>.</dd>
+<dt><strong><code>pos_cols</code></strong> :&ensp;<code>tuple</code> of <code>str</code>, optional</dt>
+<dd>names/headers of the columns in <code>features</code> containing the positional
+data (in units of pixels) in (y,x) order. When <code>features=None</code>,
+<code>pos_cols</code> is ignored. The default is <code>(y','x')</code>.</dd>
+<dt><strong><code>frame_col</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>name/header of the column in <code>features</code> containing the integer index
+along the time dimension in <code>stack</code> the features correspond to. When
+<code>features=None</code>, <code>frame_col</code> is ignored. The default is <code>frame</code>.</dd>
+<dt><strong><code>colormap</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>matplotlib colormap name for visualising the data. The default is
+<code>'inferno'</code>.</dd>
+<dt><strong><code>colormap_percentile</code></strong> :&ensp;<code>tuple</code> of <code>2 values from 0 to 100</code></dt>
+<dd>lower and upper percentile of the data values to use for the min and
+max value limits of the colormap scaling. The default is <code>(0.01,99.99)</code></dd>
+<dt><strong><code>timesteps</code></strong> :&ensp;<code>list</code> of <code>floats/ints</code></dt>
+<dd>list of time stamps for the video frames to display. The default is the
+frame index numbers.</dd>
+<dt><strong><code>print_options</code></strong> :&ensp;<code>bool</code></dt>
+<dd>prints the keybindings and instructions how to use to the terminal. The
+default is <code>True</code>.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>videoscroller :</code></dt>
+<dd>dynamic videoscroller instance that can be called with keybindings
+to update the displayed frame, when stored to a global variable.</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="stackscroller.videoscroller.export_images"><code class="name flex">
+<span>def <span class="ident">export_images</span></span>(<span>self, animate_range=None, upsample=1, file_prefix='stackscroller', crop=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>function that allows an animated stackscroller to be stored as a series
+of images, e.g. to turn into a video.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>animate_range</code></strong> :&ensp;<code>iterable</code> of <code>ints</code>, optional</dt>
+<dd>The indices for the time dimension to store images for. The default
+is None which uses all timesteps.</dd>
+<dt><strong><code>crop</code></strong> :&ensp;<code>tuple</code> of <code>ints</code>, optional</dt>
+<dd>only export a portion of the full image, specified either as the
+indices of the corners as <code>((xmin,ymin),(xmax,ymax))</code> or as the
+top left corner, width and height as <code>(xmin,xmax,w,h)</code>. The
+default is None which takes the full image.</dd>
+<dt><strong><code>upsample</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Factor to increase (or decrease) the pixel density for the image,
+useful to assure the features are highlighted with higher
+resolution than the pixelsize of the original data. The default is
+1.</dd>
+<dt><strong><code>file_prefix</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>name/prefix to use for the files which are saved in the current
+working directory. The default is 'stackscroller'.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="stackscroller.multichannel_stackscroller" href="#stackscroller.multichannel_stackscroller">multichannel_stackscroller</a></code></h4>
+<ul class="">
+<li><code><a title="stackscroller.multichannel_stackscroller.export_images" href="#stackscroller.multichannel_stackscroller.export_images">export_images</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="stackscroller.stackscroller" href="#stackscroller.stackscroller">stackscroller</a></code></h4>
+<ul class="">
+<li><code><a title="stackscroller.stackscroller.export_images" href="#stackscroller.stackscroller.export_images">export_images</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="stackscroller.videoscroller" href="#stackscroller.videoscroller">videoscroller</a></code></h4>
+<ul class="">
+<li><code><a title="stackscroller.videoscroller.export_images" href="#stackscroller.videoscroller.export_images">export_images</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
