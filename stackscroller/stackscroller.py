@@ -1036,6 +1036,10 @@ class multichannel_stackscroller:
         self.shape = np.shape(self.stack)[:-1]
         self.pixel_aspect = pixel_aspect
 
+        #default colormap list
+        if colormap is None:
+            colormap = ['b','g','r','p','c','y','w']
+
         #apply color scaling to stack
         for cm,cp,ch in zip(colormap,colormap_percentile,stack):
             if cm == 'r':
@@ -1083,9 +1087,6 @@ class multichannel_stackscroller:
             self.features = []
             self.colors = [[]]*self.shape[0]
             self.diameters = [[]]*self.shape[0]
-            
-            if colormap is None:
-                colormap = ['b','g','r','p','c','y','w']
             
             #check if there's a frame column in case of no time dimension
             for i,feat in enumerate(features):
